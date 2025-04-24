@@ -1,0 +1,16 @@
+# Node
+node_modules/
+
+# Next.js
+.next/
+
+# Build
+dist/
+out/
+
+# Ambiente
+.env
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
