@@ -2,30 +2,26 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const fakeFanId = crypto.randomUUID();
-    localStorage.setItem("auth", JSON.stringify({ fanId: fakeFanId, email }));
-    console.log("Usuário logado com:", { email, fanId: fakeFanId });
+    const fanId = crypto.randomUUID();
+    localStorage.setItem("auth", JSON.stringify({ fanId, email }));
+    console.log("Usuário cadastrado:", { email, fanId });
 
-    const profile = localStorage.getItem("fanProfile");
-    if (!profile) {
-      router.push("/add-fan");
-    } else {
-      router.push("/");
-    }
+    // Redireciona para criar perfil após o cadastro
+    router.push("/add-fan");
   };
 
   return (
     <main className="p-6 bg-gray-100 min-h-screen flex items-center justify-center">
-      <form onSubmit={handleLogin} className="w-full max-w-sm bg-white p-6 rounded-lg shadow">
-        <h1 className="text-2xl font-bold mb-6 text-center">Login de Fã</h1>
+      <form onSubmit={handleRegister} className="w-full max-w-sm bg-white p-6 rounded-lg shadow">
+        <h1 className="text-2xl font-bold mb-6 text-center">Criar Conta</h1>
 
         <label className="block mb-4">
           <span className="block text-sm font-medium text-gray-700">E-mail:</span>
@@ -53,7 +49,7 @@ export default function LoginPage() {
           type="submit"
           className="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700"
         >
-          Entrar
+          Cadastrar-se
         </button>
       </form>
     </main>

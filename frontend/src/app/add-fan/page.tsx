@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function NewFanPage() {
@@ -6,12 +7,14 @@ export default function NewFanPage() {
   const [favoriteGame, setFavoriteGame] = useState("");
   const [fanLevel, setFanLevel] = useState("casual");
   const [photoUrl, setPhotoUrl] = useState("");
+  const router = useRouter();
+  
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const newFan = { name, favoriteGame, fanLevel, photoUrl };
     console.log("Novo fã cadastrado:", newFan);
-    // Aqui futuramente você envia para API
+    router.push("/");
   };
 
   return (

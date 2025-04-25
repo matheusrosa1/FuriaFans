@@ -1,6 +1,5 @@
 "use client";
 
-
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import FanCard, { FanCardProps } from "../../components/FanCard";
@@ -37,12 +36,12 @@ export default function HomePage() {
     }
   }, []);
 
-  const handleAddFanClick = () => {
-    router.push(isLogged ? "/add-fan" : "/login");
+  const handleLoginClick = () => {
+    router.push("/login");
   };
 
-  const handleLoginClick = () => {
-    router.push(isLogged ? "/add-fan" : "/login");
+  const handleRegisterClick = () => {
+    router.push("/register");
   };
 
   return (
@@ -51,10 +50,10 @@ export default function HomePage() {
         <h1 className="text-3xl font-bold">Fãs da FURIA 💜</h1>
         <div className="flex gap-2">
           <button
-            onClick={handleAddFanClick}
+            onClick={handleRegisterClick}
             className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
           >
-            + Adicionar-me como Fã
+            Cadastrar-se
           </button>
           <button
             onClick={handleLoginClick}
