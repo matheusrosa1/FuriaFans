@@ -1,4 +1,3 @@
-// Conteúdo de frontend/app/drops/page.tsx
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -56,26 +55,33 @@ export default function DropsPage() {
     setInput("");
   };
 
+  const handleAuthRedirect = (path: string) => {
+    localStorage.setItem("redirectAfterAuth", "/drops");
+    router.push(path);
+  };
+
   return (
     <main className="p-6 bg-gray-100 min-h-screen">
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-3xl font-bold mb-2">Drops da Torcida FURIA</h1>
-        <p className="text-gray-600 mb-6">Compartilhe momentos, grite sua torcida!</p>
-
-        <div className="flex gap-4 mb-6">
-          <button
-            onClick={() => router.push("/")}
-            className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400 text-sm"
-          >
-            Voltar para Home
-          </button>
-          <button
-            onClick={() => router.push("/fan/me")}
-            className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400 text-sm"
-          >
-            Meu Perfil
-          </button>
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold">Drops da Torcida FURIA</h1>
+          <div className="flex gap-2">
+            <button
+              onClick={() => router.push("/")}
+              className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400 text-sm"
+            >
+              Voltar para Home
+            </button>
+            <button
+              onClick={() => router.push("/fan/me")}
+              className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400 text-sm"
+            >
+              Meu Perfil
+            </button>
+          </div>
         </div>
+
+        <p className="text-gray-600 mb-6">Compartilhe momentos, grite sua torcida!</p>
 
         <div className="mb-6">
           <textarea
@@ -98,19 +104,19 @@ export default function DropsPage() {
           </button>
           {(!isLogged || !hasFanProfile) && (
             <div className="mt-2 text-sm text-red-500">
-              <p>Você precisa estar logado e ter um perfil de fã para enviar mensagens.</p>
+              <p>Você precisa estar logado para enviar mensagens.</p>
               <div className="mt-2 flex gap-2">
                 <button
-                  onClick={() => router.push("/login")}
+                  onClick={() => handleAuthRedirect("/login")}
                   className="bg-purple-100 text-purple-800 px-3 py-1 rounded hover:bg-purple-200"
                 >
                   Fazer Login
                 </button>
                 <button
-                  onClick={() => router.push("/add-fan")}
+                  onClick={() => handleAuthRedirect("/register")}
                   className="bg-purple-100 text-purple-800 px-3 py-1 rounded hover:bg-purple-200"
                 >
-                  Criar Perfil de Fã
+                  Cadastrar-se
                 </button>
               </div>
             </div>

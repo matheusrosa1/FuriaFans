@@ -14,11 +14,14 @@ export default function LoginPage() {
     localStorage.setItem("auth", JSON.stringify({ fanId: fakeFanId, email }));
     console.log("Usuário logado com:", { email, fanId: fakeFanId });
 
+    const redirectPath = localStorage.getItem("redirectAfterAuth");
+    localStorage.removeItem("redirectAfterAuth");
+
     const profile = localStorage.getItem("fanProfile");
     if (!profile) {
       router.push("/add-fan");
     } else {
-      router.push("/");
+      router.push(redirectPath || "/");
     }
   };
 
