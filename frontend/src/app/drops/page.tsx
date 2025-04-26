@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { DropMessage } from "../../../interfaces/dropMessage";
+import { DropMessage } from "../../interfaces/dropMessage";
 
 export default function DropsPage() {
   const router = useRouter();

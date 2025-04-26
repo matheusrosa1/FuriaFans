@@ -2,8 +2,8 @@
 
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { FanProfile } from "../../../../interfaces/fanProfile";
-import FanCard from "../../../../components/FanCard";
+import { FanProfile } from "../../../interfaces/fanProfile";
+import FanCard from "../../../components/FanCard";
 
 
 

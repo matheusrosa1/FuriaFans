@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { FanProfile } from "../../../../interfaces/fanProfile";
+import { FanProfile } from "../../../interfaces/fanProfile";
 
 
 export default function FanMePage() {

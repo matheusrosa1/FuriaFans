@@ -1,10 +1,9 @@
 import React from 'react';
 import { FanCardProps } from '../interfaces/fanCardProps';
 
-
 const FanCard: React.FC<FanCardProps> = ({ name, favoriteGame, fanLevel, photoUrl }) => {
   return (
-    <div className="border rounded-xl p-4 shadow bg-white w-full max-w-sm flex flex-col items-center">
+    <div className="border rounded-xl p-4 shadow bg-white w-full max-w-[300px] flex flex-col items-center">
       {photoUrl && (
         <img
           src={photoUrl}
