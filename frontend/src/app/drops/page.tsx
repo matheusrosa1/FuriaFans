@@ -1,13 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-
-interface DropMessage {
-  id: string;
-  author: string;
-  content: string;
-  timestamp: string;
-}
+import { DropMessage } from "../../../interfaces/dropMessage";
 
 export default function DropsPage() {
   const router = useRouter();
@@ -22,21 +16,25 @@ export default function DropsPage() {
     setIsLogged(!!auth);
     setHasFanProfile(!!profile);
 
-    // Mock inicial
-    setMessages([
-      {
-        id: crypto.randomUUID(),
-        author: "Bia Rush",
-        content: "FURIA rumo ao topo! 💜",
-        timestamp: new Date().toLocaleTimeString(),
-      },
-      {
-        id: crypto.randomUUID(),
-        author: "Lucas Matador",
-        content: "A torcida mais insana do CS está aqui!",
-        timestamp: new Date().toLocaleTimeString(),
-      },
-    ]);
+    const storedMessages = localStorage.getItem("dropsMessages");
+    if (storedMessages) {
+      setMessages(JSON.parse(storedMessages));
+    } else {
+      setMessages([
+        {
+          id: crypto.randomUUID(),
+          author: "Bia Rush",
+          content: "FURIA rumo ao topo! 💜",
+          timestamp: new Date().toLocaleTimeString(),
+        },
+        {
+          id: crypto.randomUUID(),
+          author: "Lucas Matador",
+          content: "A torcida mais insana do CS está aqui!",
+          timestamp: new Date().toLocaleTimeString(),
+        },
+      ]);
+    }
   }, []);
 
   const handleSend = () => {
@@ -46,12 +44,14 @@ export default function DropsPage() {
 
     const newMessage: DropMessage = {
       id: crypto.randomUUID(),
-      author: profile.name || auth.email || "Anônimo",
+      author: profile.nickname || auth.email || "Anônimo",
       content: input.trim(),
       timestamp: new Date().toLocaleTimeString(),
     };
 
-    setMessages((prev) => [newMessage, ...prev]);
+    const updatedMessages = [newMessage, ...messages];
+    setMessages(updatedMessages);
+    localStorage.setItem("dropsMessages", JSON.stringify(updatedMessages));
     setInput("");
   };
 
@@ -95,9 +95,7 @@ export default function DropsPage() {
             onClick={handleSend}
             disabled={!isLogged || !hasFanProfile || !input.trim()}
             className={`mt-2 px-4 py-2 rounded text-white text-sm font-medium transition ${
-              isLogged && hasFanProfile
-                ? "bg-purple-600 hover:bg-purple-700"
-                : "bg-gray-400 cursor-not-allowed"
+              isLogged && hasFanProfile ? "bg-purple-600 hover:bg-purple-700" : "bg-gray-400 cursor-not-allowed"
             }`}
           >
             Enviar

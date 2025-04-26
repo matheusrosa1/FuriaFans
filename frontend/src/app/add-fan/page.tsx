@@ -3,13 +3,15 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { FanProfile } from "../../../interfaces/fanProfile";
+
 
 export default function AddFanPage() {
   const router = useRouter();
-  const [name, setName] = useState("");
+  const [nickname, setNickname] = useState("");
   const [favoriteGame, setFavoriteGame] = useState("");
   const [photoUrl, setPhotoUrl] = useState("");
-  const [fanLevel, setFanLevel] = useState("casual");
+  const [fanLevel, setFanLevel] = useState<FanProfile["fanLevel"]>("casual");
 
   useEffect(() => {
     const fanProfile = localStorage.getItem("fanProfile");
@@ -21,8 +23,8 @@ export default function AddFanPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const fanProfile = {
-      name,
+    const fanProfile: FanProfile = {
+      nickname,
       favoriteGame,
       photoUrl,
       fanLevel,
@@ -43,11 +45,11 @@ export default function AddFanPage() {
         <h1 className="text-2xl font-bold mb-6 text-center">Criar Perfil de Fã</h1>
 
         <label className="block mb-4">
-          <span className="block text-sm font-medium text-gray-700">Nome:</span>
+          <span className="block text-sm font-medium text-gray-700">Nickname:</span>
           <input
             type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)}
             required
             className="mt-1 block w-full border rounded px-3 py-2"
           />
@@ -79,7 +81,7 @@ export default function AddFanPage() {
           <span className="block text-sm font-medium text-gray-700">Nível de fã:</span>
           <select
             value={fanLevel}
-            onChange={(e) => setFanLevel(e.target.value)}
+            onChange={(e) => setFanLevel(e.target.value as FanProfile["fanLevel"])}
             className="mt-1 block w-full border rounded px-3 py-2"
           >
             <option value="casual">Casual</option>
