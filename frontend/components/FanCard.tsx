@@ -1,11 +1,6 @@
 import React from 'react';
+import { FanCardProps } from '../interfaces/fanCardProps';
 
-export interface FanCardProps {
-  name: string;
-  favoriteGame: string;
-  fanLevel: 'casual' | 'engaged' | 'hardcore';
-  photoUrl?: string;
-}
 
 const FanCard: React.FC<FanCardProps> = ({ name, favoriteGame, fanLevel, photoUrl }) => {
   return (

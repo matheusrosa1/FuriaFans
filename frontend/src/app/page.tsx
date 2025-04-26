@@ -2,7 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import FanCard, { FanCardProps } from "../../components/FanCard";
+import FanCard from "../../components/FanCard";
+import { FanCardProps } from "../../interfaces/fanCardProps";
 
 const mockFans: FanCardProps[] = [
   {
