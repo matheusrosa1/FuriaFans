@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 
 export default function FanMePage() {
   const [fanProfile, setFanProfile] = useState<any>(null);
+  const [editingField, setEditingField] = useState<string | null>(null);
+  const [tempValue, setTempValue] = useState<string>("");
 
   useEffect(() => {
     const stored = localStorage.getItem("fanProfile");
@@ -17,6 +19,19 @@ export default function FanMePage() {
     { chave: "favoriteGame", label: "Jogo favorito" },
     { chave: "fanLevel", label: "Nível de fã" },
   ];
+
+  const handleEdit = (key: string) => {
+    setEditingField(key);
+    setTempValue(fanProfile[key] || "");
+  };
+
+  const handleSave = () => {
+    if (!fanProfile) return;
+    const updatedProfile = { ...fanProfile, [editingField!]: tempValue };
+    localStorage.setItem("fanProfile", JSON.stringify(updatedProfile));
+    setFanProfile(updatedProfile);
+    setEditingField(null);
+  };
 
   return (
     <main className="p-6 bg-gray-100 min-h-screen flex items-center justify-center">
@@ -36,8 +51,35 @@ export default function FanMePage() {
             )}
             <ul className="text-sm text-gray-800 w-full max-w-sm">
               {campos.map(({ chave, label }) => (
-                <li key={chave} className="mb-2">
-                  <strong>{label}:</strong> {fanProfile[chave] || "-"}
+                <li key={chave} className="mb-4 flex justify-between items-center">
+                  {editingField === chave ? (
+                    <>
+                      <input
+                        type="text"
+                        value={tempValue}
+                        onChange={(e) => setTempValue(e.target.value)}
+                        className="border rounded px-2 py-1 w-2/3"
+                      />
+                      <button
+                        onClick={handleSave}
+                        className="bg-green-500 text-white text-xs px-2 py-1 rounded ml-2"
+                      >
+                        Salvar
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <span>
+                        <strong>{label}:</strong> {fanProfile[chave] || "-"}
+                      </span>
+                      <button
+                        onClick={() => handleEdit(chave)}
+                        className="bg-purple-500 text-white text-xs px-2 py-1 rounded ml-2"
+                      >
+                        Editar
+                      </button>
+                    </>
+                  )}
                 </li>
               ))}
             </ul>

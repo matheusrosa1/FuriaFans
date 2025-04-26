@@ -1,7 +1,7 @@
 // Página de criação de perfil de fã (/add-fan)
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export default function AddFanPage() {
@@ -10,6 +10,13 @@ export default function AddFanPage() {
   const [favoriteGame, setFavoriteGame] = useState("");
   const [photoUrl, setPhotoUrl] = useState("");
   const [fanLevel, setFanLevel] = useState("casual");
+
+  useEffect(() => {
+    const fanProfile = localStorage.getItem("fanProfile");
+    if (fanProfile) {
+      router.push("/fan/me");
+    }
+  }, [router]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
