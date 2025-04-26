@@ -1,34 +1,48 @@
+// Página de criação de perfil de fã (/add-fan)
 "use client";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 
-export default function NewFanPage() {
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+
+export default function AddFanPage() {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [favoriteGame, setFavoriteGame] = useState("");
-  const [fanLevel, setFanLevel] = useState("casual");
   const [photoUrl, setPhotoUrl] = useState("");
-  const router = useRouter();
-  
+  const [fanLevel, setFanLevel] = useState("casual");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const newFan = { name, favoriteGame, fanLevel, photoUrl };
-    console.log("Novo fã cadastrado:", newFan);
-    router.push("/");
+
+    const fanProfile = {
+      name,
+      favoriteGame,
+      photoUrl,
+      fanLevel,
+    };
+
+    localStorage.setItem("fanProfile", JSON.stringify(fanProfile));
+    console.log("Perfil de fã salvo:", fanProfile);
+
+    router.push("/fan/me");
   };
 
   return (
-    <main className="p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-3xl font-bold mb-6">Cadastrar novo fã</h1>
-      <form onSubmit={handleSubmit} className="max-w-md bg-white p-6 rounded-lg shadow">
+    <main className="p-6 bg-gray-100 min-h-screen flex items-center justify-center">
+      <form
+        onSubmit={handleSubmit}
+        className="w-full max-w-md bg-white p-6 rounded-lg shadow"
+      >
+        <h1 className="text-2xl font-bold mb-6 text-center">Criar Perfil de Fã</h1>
+
         <label className="block mb-4">
           <span className="block text-sm font-medium text-gray-700">Nome:</span>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="mt-1 block w-full border rounded px-3 py-2"
             required
+            className="mt-1 block w-full border rounded px-3 py-2"
           />
         </label>
 
@@ -38,8 +52,8 @@ export default function NewFanPage() {
             type="text"
             value={favoriteGame}
             onChange={(e) => setFavoriteGame(e.target.value)}
-            className="mt-1 block w-full border rounded px-3 py-2"
             required
+            className="mt-1 block w-full border rounded px-3 py-2"
           />
         </label>
 
@@ -49,8 +63,8 @@ export default function NewFanPage() {
             type="url"
             value={photoUrl}
             onChange={(e) => setPhotoUrl(e.target.value)}
-            className="mt-1 block w-full border rounded px-3 py-2"
             placeholder="https://exemplo.com/foto.jpg"
+            className="mt-1 block w-full border rounded px-3 py-2"
           />
         </label>
 
@@ -71,7 +85,7 @@ export default function NewFanPage() {
           type="submit"
           className="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700"
         >
-          Cadastrar fã
+          Cadastrar Fã
         </button>
       </form>
     </main>
