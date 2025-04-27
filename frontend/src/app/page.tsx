@@ -1,3 +1,5 @@
+// src/app/page.tsx
+
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -7,6 +9,8 @@ import { FanCardProps } from "../interfaces/fanCardProps";
 import { mockFans } from "@/mocks/FansMock";
 import { IoPersonSharp } from "react-icons/io5";
 import { SiTheconversation } from "react-icons/si";
+import { Button } from "@/components/Button";
+import { MdLogout } from "react-icons/md";
 
 export default function HomePage() {
   const router = useRouter();
@@ -51,37 +55,50 @@ export default function HomePage() {
         <h1 className="text-3xl font-bold flex gap-5"><img src="/furiaLogo.png" alt="Logo" width={50} />Fãs da FÚRIA</h1>
         <div className="flex gap-2">
           {!isLogged && (
-            <button
+            <Button
+              label="Cadastrar-se"
               onClick={handleRegisterClick}
-              className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
-            >
-              Cadastrar-se
-            </button>
+              />
           )}
           {!isLogged && (
-            <button
+            <Button
+              label="Login"
               onClick={handleLoginClick}
-              className="bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400"
-            >
-              Login
-            </button>
+              icon={<IoPersonSharp size={20} />}
+            />
           )}
           {isLogged && (
-            <button
+              <Button
+              label="Drops"
               onClick={handleDropsClick}
-              className="border border-black text-black px-2 py-1 rounded hover:text-purple-700 hover:bg-purple-700 hover:text-white flex items-center gap-2"
-            >
-              <SiTheconversation size={20} />
-              <span className="ml-2">Drops</span>
-            </button>
+              icon={<SiTheconversation size={20} />}
+            />
           )}
           {isLogged && (
+            <Button
+              label="Meu perfil"
+              onClick={handleProfileClick}
+              icon={<IoPersonSharp size={20} />}
+            />
+          )}
+{/*           {isLogged && (
             <button
               onClick={handleProfileClick}
               className="text-black px-4 py-2 rounded hover:text-purple-700"
             >
               <IoPersonSharp size={20} />
             </button>
+          )} */}
+          {isLogged && (
+            <Button
+              label="Logout"
+              icon={<MdLogout />}
+              onClick={() => {
+                localStorage.removeItem("auth");
+                setIsLogged(false);
+              }
+              }
+              />
           )}
         </div>
       </div>

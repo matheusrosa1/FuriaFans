@@ -1,3 +1,5 @@
+// src/app/add-fan/page.tsx
+
 "use client";
 
 import { useState, useEffect } from "react";

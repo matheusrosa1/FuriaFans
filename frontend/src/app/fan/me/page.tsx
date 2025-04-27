@@ -1,8 +1,11 @@
+// src/app/fan/me/page.tsx
+
 "use client";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FanProfile } from "../../../interfaces/fanProfile";
+import { Button } from "@/components/Button";
 
 
 export default function FanMePage() {
@@ -41,18 +44,26 @@ export default function FanMePage() {
   return (
     <main className="p-6 bg-gray-100 min-h-screen flex flex-col items-center">
       <div className="flex justify-end w-full max-w-2xl mb-4">
-        <button
+        <Button
+          label="Home"
+          onClick={() => router.push("/")}
+          />
+{/*         <button
           onClick={() => router.push("/")}
           className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400 text-sm mr-2"
         >
           Home
-        </button>
-        <button
+        </button> */}
+        <Button
+          label="Drops"
+          onClick={() => router.push("/drops")}
+          />
+{/*         <button
           onClick={() => router.push("/drops")}
           className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400 text-sm"
         >
           Drops
-        </button>
+        </button> */}
       </div>
 
       <div className="w-full max-w-2xl bg-white p-6 rounded-lg shadow flex flex-col items-center">

@@ -1,7 +1,11 @@
+// src/app/drops/page.tsx
+
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { DropMessage } from "../../interfaces/dropMessage";
+import { Button } from "@/components/Button";
+import { IoPersonSharp } from "react-icons/io5";
 
 export default function DropsPage() {
   const router = useRouter();
@@ -64,20 +68,29 @@ export default function DropsPage() {
     <main className="p-6 bg-gray-100 min-h-screen">
       <div className="max-w-3xl mx-auto">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold">Drops da Torcida FURIA</h1>
+          <h1 className="text-3xl font-bold ">Drops</h1>
           <div className="flex gap-2">
-            <button
+            <Button
+              label="Home"
+              onClick={() => router.push("/")}
+              />
+{/*             <button
               onClick={() => router.push("/")}
               className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400 text-sm"
             >
               Voltar para Home
-            </button>
-            <button
+            </button> */}
+            <Button
+              label="Meu perfil"
+              onClick={() => router.push("/fan/me")}
+              icon={<IoPersonSharp size={20} />}
+              />
+{/*             <button
               onClick={() => router.push("/fan/me")}
               className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400 text-sm"
             >
               Meu Perfil
-            </button>
+            </button> */}
           </div>
         </div>
 
