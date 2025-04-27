@@ -3,19 +3,23 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/Button";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { isLogged, setLogged } = useAuth();
   const router = useRouter();
 
   const handleLogin = (e: React.FormEvent) => {
+    
     e.preventDefault();
 
     const fakeFanId = crypto.randomUUID();
     localStorage.setItem("auth", JSON.stringify({ fanId: fakeFanId, email }));
     console.log("Usuário logado com:", { email, fanId: fakeFanId });
-
+    setLogged(true);
     const redirectPath = localStorage.getItem("redirectAfterAuth");
     localStorage.removeItem("redirectAfterAuth");
 
@@ -53,13 +57,12 @@ export default function LoginPage() {
             className="mt-1 block w-full border rounded px-3 py-2"
           />
         </label>
-
-        <button
+        <Button
           type="submit"
-          className="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700"
-        >
-          Entrar
-        </button>
+          label="Entrar"
+          fullWidth
+          />
+  
       </form>
     </main>
   );

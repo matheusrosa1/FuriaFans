@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FanProfile } from "../../../interfaces/fanProfile";
 import { Button } from "@/components/Button";
+import { useAuth } from "@/contexts/AuthContext";
 
 
 export default function FanMePage() {
@@ -13,6 +14,7 @@ export default function FanMePage() {
   const [fanProfile, setFanProfile] = useState<FanProfile | null>(null);
   const [editingField, setEditingField] = useState<keyof FanProfile | null>(null);
   const [tempValue, setTempValue] = useState<string>("");
+  const { isLogged } = useAuth();
 
   useEffect(() => {
     const stored = localStorage.getItem("fanProfile");
@@ -48,22 +50,11 @@ export default function FanMePage() {
           label="Home"
           onClick={() => router.push("/")}
           />
-{/*         <button
-          onClick={() => router.push("/")}
-          className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400 text-sm mr-2"
-        >
-          Home
-        </button> */}
+
         <Button
           label="Drops"
           onClick={() => router.push("/drops")}
           />
-{/*         <button
-          onClick={() => router.push("/drops")}
-          className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400 text-sm"
-        >
-          Drops
-        </button> */}
       </div>
 
       <div className="w-full max-w-2xl bg-white p-6 rounded-lg shadow flex flex-col items-center">

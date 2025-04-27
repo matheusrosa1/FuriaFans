@@ -5,6 +5,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Input from "@/components/Input";
+import { Button } from "@/components/Button";
 
 export const INITIAL_STATE = {
   email: "",
@@ -62,12 +63,12 @@ export default function RegisterPage() {
           handleInputChange={handleInputChange}
           isPassword
         />
-        <button
+        <Button
           type="submit"
-          className="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700"
-        >
-          Cadastrar-se
-        </button>
+          label="Cadastrar-se"
+          fullWidth
+          reverseColor
+        />
       </form>
     </main>
   );

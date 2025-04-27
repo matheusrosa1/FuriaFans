@@ -6,18 +6,18 @@ import { useRouter } from "next/navigation";
 import { DropMessage } from "../../interfaces/dropMessage";
 import { Button } from "@/components/Button";
 import { IoPersonSharp } from "react-icons/io5";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function DropsPage() {
   const router = useRouter();
   const [messages, setMessages] = useState<DropMessage[]>([]);
   const [input, setInput] = useState("");
-  const [isLogged, setIsLogged] = useState(false);
+  const { isLogged } = useAuth();
   const [hasFanProfile, setHasFanProfile] = useState(false);
 
   useEffect(() => {
     const auth = localStorage.getItem("auth");
     const profile = localStorage.getItem("fanProfile");
-    setIsLogged(!!auth);
     setHasFanProfile(!!profile);
 
     const storedMessages = localStorage.getItem("dropsMessages");
@@ -74,23 +74,31 @@ export default function DropsPage() {
               label="Home"
               onClick={() => router.push("/")}
               />
-{/*             <button
-              onClick={() => router.push("/")}
-              className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400 text-sm"
-            >
-              Voltar para Home
-            </button> */}
-            <Button
-              label="Meu perfil"
-              onClick={() => router.push("/fan/me")}
-              icon={<IoPersonSharp size={20} />}
-              />
-{/*             <button
-              onClick={() => router.push("/fan/me")}
-              className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400 text-sm"
-            >
-              Meu Perfil
-            </button> */}
+              {isLogged ? (
+                <Button
+                  label="Meu perfil"
+                  onClick={() => router.push("/fan/me")}
+                  icon={<IoPersonSharp size={20} />}
+                 /> ) : (
+                <>
+                <Button
+                  label="Login"
+                  onClick={() => handleAuthRedirect("/login")}
+                  icon={<IoPersonSharp size={20} />}
+                />
+                <Button
+                  label="Cadastrar-se"
+                  onClick={() => handleAuthRedirect("/register")}
+                  icon={<IoPersonSharp size={20} />}
+                />
+                </>
+             )}
+             {(isLogged && !hasFanProfile) && (
+              <Button
+                label="Tornar-me fã"
+                onClick={() => router.push("/add-fan")}
+                />   
+              )}
           </div>
         </div>
 
@@ -113,22 +121,17 @@ export default function DropsPage() {
           >
             Enviar
           </button>
-          {(!isLogged || !hasFanProfile) && (
+          {(!isLogged) && (
             <div className="mt-2 text-sm text-red-500">
               <p>Você precisa estar logado para enviar mensagens.</p>
               <div className="mt-2 flex gap-2">
-                <button
-                  onClick={() => handleAuthRedirect("/login")}
-                  className="bg-purple-100 text-purple-800 px-3 py-1 rounded hover:bg-purple-200"
-                >
-                  Fazer Login
-                </button>
-                <button
-                  onClick={() => handleAuthRedirect("/register")}
-                  className="bg-purple-100 text-purple-800 px-3 py-1 rounded hover:bg-purple-200"
-                >
-                  Cadastrar-se
-                </button>
+              </div>
+            </div>
+          )}
+          {(isLogged && !hasFanProfile) && (
+            <div className="mt-2 text-sm text-red-500">
+              <p>Você precisa criar um perfil de fã para enviar mensagens.</p>
+              <div className="mt-2 flex gap-2">
               </div>
             </div>
           )}
