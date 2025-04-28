@@ -1,30 +1,56 @@
-// src/app/fan/[id]/page.tsx
-
 "use client";
 
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import FanCard from "../../../components/FanCard";
-import { useFanProfile } from "@/contexts/FanProfileContext";
+import { useParams, useRouter } from "next/navigation";
 
-
+import { Button } from "@/components/Button";
+import { useFanContext } from "@/contexts/FanContextType";
 
 export default function FanIdPage() {
-  const { id: nickname } = useParams();
-  const { fanProfile } = useFanProfile();
-  
-  if (!fanProfile) {
+  const { id } = useParams(); // pegando o id da URL
+  const { fans } = useFanContext();
+  const router = useRouter();
+
+  const fan = fans.find((fan) => fan.id === id);
+
+  if (!fan) {
     return (
-      <main className="p-6 bg-gray-100 min-h-screen flex items-center justify-center">
+      <main className="p-6 min-h-screen flex items-center justify-center bg-gray-100">
         <p className="text-center text-gray-600">Fã não encontrado.</p>
       </main>
     );
   }
 
   return (
-    <main className="p-6 bg-gray-100 min-h-screen flex flex-col items-center">
-      <h1 className="text-2xl font-bold mb-6 text-center">Perfil do Fã</h1>
-      <FanCard  {...fanProfile} />
+    <main className="p-6 bg-gray-100 min-h-screen flex flex-col items-center bg-[url(/Torcida-FURIA-IEM-Rio-Major-2022.jpg)]">
+      <div className="flex justify-end w-full max-w-2xl mb-6 gap-4">
+        <Button label="Home" onClick={() => router.push("/")} />
+        <Button label="Drops" onClick={() => router.push("/drops")} />
+      </div>
+
+      <div className="w-full max-w-2xl bg-white p-8 rounded-lg shadow flex flex-col items-center">
+        <h1 className="text-2xl font-bold mb-6 text-center">Perfil do Fã</h1>
+
+        {fan.photoUrl && (
+          <img
+            src={fan.photoUrl}
+            alt="Avatar"
+            className="w-24 h-24 rounded-full object-cover border mb-4"
+          />
+        )}
+
+        <ul className="text-sm text-gray-800 w-full max-w-sm mt-6">
+          <li className="mb-4 flex flex-col sm:flex-row sm:justify-between sm:items-center">
+            <strong>Nick Name:</strong> {fan.nickname}
+          </li>
+          <li className="mb-4 flex flex-col sm:flex-row sm:justify-between sm:items-center">
+            <strong>Jogo Favorito:</strong> {fan.favoriteGame}
+          </li>
+          <li className="mb-4 flex flex-col sm:flex-row sm:justify-between sm:items-center">
+            <strong>Nível de Fã:</strong> {fan.fanLevel}
+          </li>
+        </ul>
+      </div>
     </main>
   );
 }
+

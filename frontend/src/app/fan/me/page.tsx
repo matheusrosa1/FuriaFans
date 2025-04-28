@@ -50,7 +50,7 @@ export default function FanMePage() {
   };
 
   const labels: Record<string, string> = {
-    nickname: "Nick Name",
+    nickname: "Nickname",
     favoriteGame: "Jogo Favorito",
     fanLevel: "Nível de Fã",
   };
