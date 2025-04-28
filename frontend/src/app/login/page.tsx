@@ -5,29 +5,42 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/Button";
 import { useAuth } from "@/contexts/AuthContext";
+import { useFanProfile } from "@/contexts/FanProfileContext";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { isLogged, setLogged } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+  const { setLogged } = useAuth();
   const router = useRouter();
+  const { fanProfile } = useFanProfile();
 
-  const handleLogin = (e: React.FormEvent) => {
-    
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true); // 🚀 começa loading
 
-    const fakeFanId = crypto.randomUUID();
-    localStorage.setItem("auth", JSON.stringify({ fanId: fakeFanId, email }));
-    console.log("Usuário logado com:", { email, fanId: fakeFanId });
-    setLogged(true);
-    const redirectPath = localStorage.getItem("redirectAfterAuth");
-    localStorage.removeItem("redirectAfterAuth");
+    try {
+      const fakeFanId = crypto.randomUUID();
+      
+      localStorage.setItem("auth", "true");
 
-    const profile = localStorage.getItem("fanProfile");
-    if (!profile) {
-      router.push("/add-fan");
-    } else {
-      router.push(redirectPath || "/");
+      console.log("Usuário logado com:", { email, fanId: fakeFanId });
+      setLogged(true);
+
+      const redirectPath = localStorage.getItem("redirectAfterAuth");
+      localStorage.removeItem("redirectAfterAuth");
+
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      if (!fanProfile) {
+        router.push("/add-fan");
+      } else {
+        router.push(redirectPath || "/");
+      }
+    } catch (error) {
+      console.error("Erro ao fazer login:", error);
+    } finally {
+      setIsLoading(false); // 🚀 termina loading (mesmo se der erro)
     }
   };
 
@@ -60,6 +73,7 @@ export default function LoginPage() {
         <Button
           type="submit"
           label="Entrar"
+          disabled={isLoading}
           fullWidth
           />
   

@@ -7,19 +7,17 @@ import { DropMessage } from "../../interfaces/dropMessage";
 import { Button } from "@/components/Button";
 import { IoPersonSharp } from "react-icons/io5";
 import { useAuth } from "@/contexts/AuthContext";
+import { FanProfile } from '../../interfaces/fanProfile';
+import { useFanProfile } from "@/contexts/FanProfileContext";
 
 export default function DropsPage() {
   const router = useRouter();
   const [messages, setMessages] = useState<DropMessage[]>([]);
   const [input, setInput] = useState("");
   const { isLogged } = useAuth();
-  const [hasFanProfile, setHasFanProfile] = useState(false);
+  const { fanProfile } = useFanProfile();
 
   useEffect(() => {
-    const auth = localStorage.getItem("auth");
-    const profile = localStorage.getItem("fanProfile");
-    setHasFanProfile(!!profile);
-
     const storedMessages = localStorage.getItem("dropsMessages");
     if (storedMessages) {
       setMessages(JSON.parse(storedMessages));
@@ -93,7 +91,7 @@ export default function DropsPage() {
                 />
                 </>
              )}
-             {(isLogged && !hasFanProfile) && (
+             {(isLogged && !fanProfile) && (
               <Button
                 label="Tornar-me fã"
                 onClick={() => router.push("/add-fan")}
@@ -110,13 +108,13 @@ export default function DropsPage() {
             onChange={(e) => setInput(e.target.value)}
             className="w-full border rounded-lg p-4 text-sm resize-none min-h-[80px]"
             placeholder="O que tem na agenda de hoje?"
-            disabled={!isLogged || !hasFanProfile}
+            disabled={!isLogged || !fanProfile}
           />
           <button
             onClick={handleSend}
-            disabled={!isLogged || !hasFanProfile || !input.trim()}
+            disabled={!isLogged || !fanProfile || !input.trim()}
             className={`mt-2 px-4 py-2 rounded text-white text-sm font-medium transition ${
-              isLogged && hasFanProfile ? "bg-purple-600 hover:bg-purple-700" : "bg-gray-400 cursor-not-allowed"
+              isLogged && fanProfile ? "bg-purple-600 hover:bg-purple-700" : "bg-gray-400 cursor-not-allowed"
             }`}
           >
             Enviar
@@ -128,7 +126,7 @@ export default function DropsPage() {
               </div>
             </div>
           )}
-          {(isLogged && !hasFanProfile) && (
+          {(isLogged && !fanProfile) && (
             <div className="mt-2 text-sm text-red-500">
               <p>Você precisa criar um perfil de fã para enviar mensagens.</p>
               <div className="mt-2 flex gap-2">
