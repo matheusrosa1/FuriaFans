@@ -7,7 +7,6 @@ import { DropMessage } from "../../interfaces/dropMessage";
 import { Button } from "@/components/Button";
 import { IoPersonSharp } from "react-icons/io5";
 import { useAuth } from "@/contexts/AuthContext";
-import { FanProfile } from '../../interfaces/fanProfile';
 import { useFanProfile } from "@/contexts/FanProfileContext";
 
 export default function DropsPage() {

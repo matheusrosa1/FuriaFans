@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { FanProfileProvider } from "@/contexts/FanProfileContext";
+import { FanProvider } from "@/contexts/FanContextType";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,7 +26,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <AuthProvider>
           <FanProfileProvider>
+            <FanProvider> 
           {children}
+            </FanProvider>
           </FanProfileProvider>
         </AuthProvider>
       </body>

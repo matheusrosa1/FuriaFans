@@ -1,24 +1,29 @@
-// src/app/add-fan/page.tsx
-
 "use client";
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { FanProfile } from "../../interfaces/fanProfile";
+import { v4 as uuidv4 } from "uuid";
+import { Fan } from "@/interfaces/fan";
+ // Corrigido o nome correto
+import { useFanProfile } from "@/contexts/FanProfileContext";
+import { useFanContext } from "@/contexts/FanContextType";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function AddFanPage() {
   const router = useRouter();
+  const { addFan } = useFanContext();
+  const { fanProfile, setFanProfile } = useFanProfile();
+  const { setLogged } = useAuth();; // Corrigido o nome correto
   const [nickname, setNickname] = useState("");
   const [favoriteGame, setFavoriteGame] = useState("");
   const [photoFile, setPhotoFile] = useState<File | null>(null);
-  const [fanLevel, setFanLevel] = useState<FanProfile["fanLevel"]>("casual");
+  const [fanLevel, setFanLevel] = useState<Fan["fanLevel"]>("casual");
 
   useEffect(() => {
-    const fanProfile = localStorage.getItem("fanProfile");
     if (fanProfile) {
       router.push("/fan/me");
     }
-  }, [router]);
+  }, [fanProfile, router]); // 👈 Agora observa o contexto
 
   const convertToBase64 = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -27,30 +32,30 @@ export default function AddFanPage() {
       reader.onload = () => resolve(reader.result as string);
       reader.onerror = (error) => reject(error);
     });
-  };  
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
+
     let base64Photo = "";
-  
+
     if (photoFile) {
       base64Photo = await convertToBase64(photoFile);
     }
-  
-    const fanProfile: FanProfile = {
+
+    const newFan: Fan = {
+      id: uuidv4(),
       nickname,
       favoriteGame,
-      photoUrl: base64Photo,
       fanLevel,
+      photoUrl: base64Photo,
+      photoFile: null, // Definindo o padrão
     };
-  
-    localStorage.setItem("fanProfile", JSON.stringify(fanProfile));
-  
-    const fansMocked = JSON.parse(localStorage.getItem("fansMocked") || "[]");
-    fansMocked.push(fanProfile);
-    localStorage.setItem("fansMocked", JSON.stringify(fansMocked));
-  
+
+    setFanProfile(newFan); // Atualiza o perfil do usuário
+    addFan(newFan); // Adiciona na lista global de fãs
+    setLogged(true);
+
     router.push("/fan/me");
   };
 
@@ -96,7 +101,7 @@ export default function AddFanPage() {
                 setPhotoFile(null);
               }
             }}
-            className="mt-1 block w-full border rounded px-3 py-2"  
+            className="mt-1 block w-full border rounded px-3 py-2"
           />
         </label>
 
@@ -104,7 +109,7 @@ export default function AddFanPage() {
           <span className="block text-sm font-medium text-gray-700">Nível de fã:</span>
           <select
             value={fanLevel}
-            onChange={(e) => setFanLevel(e.target.value as FanProfile["fanLevel"])}
+            onChange={(e) => setFanLevel(e.target.value as Fan["fanLevel"])}
             className="mt-1 block w-full border rounded px-3 py-2"
           >
             <option value="casual">Casual</option>

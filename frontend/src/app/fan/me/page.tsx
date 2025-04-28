@@ -1,19 +1,21 @@
-// app/fan/me/page.tsx
-
 "use client";
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/Button";
-import { FanProfile } from "@/interfaces/fanProfile";
+import { Fan } from "@/interfaces/fan";
 import EditProfilePhoto from "@/components/EditProfilePhoto"; 
 import { useFanProfile } from "@/contexts/FanProfileContext";
+import { useFanContext } from "@/contexts/FanContextType";
+ // 👈 Importando o contexto de fãs
 
 export default function FanMePage() {
   const router = useRouter();
   const { fanProfile, setFanProfile } = useFanProfile();
-  const [editingField, setEditingField] = useState<keyof FanProfile | null>(null);
+  const { updateFan } = useFanContext(); // 👈 Pegando o updateFan
+  const [editingField, setEditingField] = useState<keyof Fan | null>(null);
   const [tempValue, setTempValue] = useState<string>("");
-  const [editingPhoto, setEditingPhoto] = useState(false); // Novo estado para editar foto
+  const [editingPhoto, setEditingPhoto] = useState(false);
 
   if (!fanProfile) {
     return (
@@ -23,29 +25,34 @@ export default function FanMePage() {
     );
   }
 
-  const handleEdit = (key: keyof FanProfile) => {
+  const handleEdit = (key: keyof Fan) => {
     setEditingField(key);
-    setTempValue(fanProfile ? fanProfile[key] ?? "" : "");
+    setTempValue(fanProfile[key]?.toString() ?? "");
   };
 
   const handleSave = () => {
     if (!fanProfile || !editingField) return;
+    
     const updatedProfile = { ...fanProfile, [editingField]: tempValue };
-    setFanProfile(updatedProfile);
+
+    setFanProfile(updatedProfile); // Atualiza o perfil do usuário logado
+    updateFan(fanProfile.id, { [editingField]: tempValue }); // Atualiza o fã na lista de fãs também
     setEditingField(null);
   };
 
   const handlePhotoSave = (newPhotoUrl: string) => {
     if (!fanProfile) return;
+
     const updatedProfile = { ...fanProfile, photoUrl: newPhotoUrl };
+
     setFanProfile(updatedProfile);
+    updateFan(fanProfile.id, { photoUrl: newPhotoUrl }); // Atualiza também no contexto geral
     setEditingPhoto(false);
   };
 
   const labels: Record<string, string> = {
-    nickName: "Nick Name",
+    nickname: "Nick Name",
     favoriteGame: "Jogo Favorito",
-    photoUrl: "Foto de Perfil",
     fanLevel: "Nível de Fã",
   };
 
@@ -82,8 +89,9 @@ export default function FanMePage() {
         )}
 
         <ul className="text-sm text-gray-800 w-full max-w-sm mt-6">
-          {Object.entries(fanProfile).map(([key, value]) => (
-            key === "photoUrl" ? null : (
+          {Object.entries(fanProfile)
+            .filter(([key]) => key !== "id" && key !== "photoUrl" && key !== "photoFile")
+            .map(([key, value]) => (
               <li key={key} className="mb-4 flex flex-col sm:flex-row sm:justify-between sm:items-center">
                 {editingField === key ? (
                   <div className="flex flex-col sm:flex-row sm:items-center w-full gap-2">
@@ -106,14 +114,13 @@ export default function FanMePage() {
                     </span>
                     <Button
                       label="Editar"
-                      onClick={() => handleEdit(key as keyof FanProfile)}
+                      onClick={() => handleEdit(key as keyof Fan)}
                       type="button"
                     />
                   </div>
                 )}
               </li>
-            )
-          ))}
+            ))}
         </ul>
       </div>
     </main>

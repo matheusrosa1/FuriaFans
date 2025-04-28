@@ -1,37 +1,19 @@
-// src/app/page.tsx
-
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import FanCard from "../components/FanCard";
-import { FanCardProps } from "../interfaces/fanCardProps";
-import { mockFans } from "@/mocks/FansMock";
+ // 👈 usando FanContext
 import { IoPersonSharp } from "react-icons/io5";
 import { SiTheconversation } from "react-icons/si";
-import { Button } from "@/components/Button";
 import { MdLogout } from "react-icons/md";
+import FanCard from "@/components/FanCard";
+import { Button } from "@/components/Button";
 import { useAuth } from "@/contexts/AuthContext"; 
+import { useFanContext } from "@/contexts/FanContextType";
 
 export default function HomePage() {
   const router = useRouter();
   const { isLogged, setLogged } = useAuth();
-
-  const [fans, setFans] = useState<FanCardProps[]>([]);
-  console.log(isLogged);
-  useEffect(() => {
-    
-    const mockedFans = localStorage.getItem("fansMocked");
-    if (!mockedFans) {
-      localStorage.setItem("fansMocked", JSON.stringify(mockFans));
-      const fansData = localStorage.getItem("fansMocked");
-      if (fansData) {
-        setFans(JSON.parse(fansData));
-      }
-    }
-
-    setFans(JSON.parse(mockedFans || "[]"));
-  }, []);
+  const { fans } = useFanContext(); // 👈 agora pega os fãs via Context
 
   const handleLoginClick = () => {
     router.push("/login");
@@ -50,7 +32,7 @@ export default function HomePage() {
   };
 
   const handleLogoutClick = () => {
-    setLogged(false); // 🔥 agora usa o setLogged do Context
+    setLogged(false);
   };
 
   return (
@@ -62,17 +44,14 @@ export default function HomePage() {
 
         <div className="flex gap-2">
           {!isLogged && (
-            <Button
-              label="Cadastrar-se"
-              onClick={handleRegisterClick}
-            />
-          )}
-          {!isLogged && (
-            <Button
-              label="Login"
-              onClick={handleLoginClick}
-              icon={<IoPersonSharp size={20} />}
-            />
+            <>
+              <Button label="Cadastrar-se" onClick={handleRegisterClick} />
+              <Button
+                label="Login"
+                onClick={handleLoginClick}
+                icon={<IoPersonSharp size={20} />}
+              />
+            </>
           )}
           {isLogged && (
             <>
@@ -88,17 +67,17 @@ export default function HomePage() {
               />
             </>
           )}
-            <Button
-              label="Drops"
-              onClick={handleDropsClick}
-              icon={<SiTheconversation size={20} />}
-            />
+          <Button
+            label="Drops"
+            onClick={handleDropsClick}
+            icon={<SiTheconversation size={20} />}
+          />
         </div>
       </div>
 
       <div className="flex flex-wrap gap-4 w-full">
-        {fans.map((fan, index) => (
-          <FanCard key={index} {...fan} />
+        {fans.map((fan) => (
+          <FanCard key={fan.id} {...fan} />
         ))}
       </div>
     </main>

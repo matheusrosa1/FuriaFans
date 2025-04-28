@@ -1,4 +1,6 @@
-/* export interface FanCardProps {
+// src/interfaces/fan.ts
+
+export interface Fan {
   id: string;
   nickname: string;
   favoriteGame: string;
@@ -6,4 +8,3 @@
   photoUrl?: string;
   photoFile?: File | null;
 }
- */
