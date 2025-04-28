@@ -63,10 +63,10 @@ export default function DropsPage() {
   };
 
   return (
-    <main className="p-6 bg-gray-100 min-h-screen">
+    <main className="p-6 bg-gray-100 min-h-screen bg-[url(/Torcida-FURIA-IEM-Rio-Major-2022.jpg)]">
       <div className="max-w-3xl mx-auto">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold ">Drops</h1>
+          <h1 className="text-3xl font-bold text-white">Drops</h1>
           <div className="flex gap-2">
             <Button
               label="Home"
@@ -100,13 +100,13 @@ export default function DropsPage() {
           </div>
         </div>
 
-        <p className="text-gray-600 mb-6">Compartilhe momentos, grite sua torcida!</p>
+        <p className="text-gray-600 mb-6 text-white">Compartilhe momentos, grite sua torcida!</p>
 
-        <div className="mb-6">
+        <div className="mb-6 ">
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            className="w-full border rounded-lg p-4 text-sm resize-none min-h-[80px]"
+            className="w-full border rounded-lg p-4 text-sm resize-none min-h-[80px] bg-white"
             placeholder="O que tem na agenda de hoje?"
             disabled={!isLogged || !fanProfile}
           />

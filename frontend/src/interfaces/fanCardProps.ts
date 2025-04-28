@@ -1,5 +1,5 @@
 export interface FanCardProps {
-  nickName: string;
+  nickname: string;
   favoriteGame: string;
   fanLevel: 'casual' | 'engaged' | 'hardcore';
   photoUrl?: string;

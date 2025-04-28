@@ -41,7 +41,7 @@ export default function FanMePage() {
   };
 
   return (
-    <main className="p-6 bg-gray-100 min-h-screen flex flex-col items-center">
+    <main className="p-6 bg-gray-100 min-h-screen flex flex-col items-center bg-[url(/Torcida-FURIA-IEM-Rio-Major-2022.jpg)]">
       <div className="flex justify-end w-full max-w-2xl mb-6 gap-4">
         <Button label="Home" onClick={() => router.push("/")} />
         <Button label="Drops" onClick={() => router.push("/drops")} />

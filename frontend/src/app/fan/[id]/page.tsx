@@ -26,7 +26,7 @@ export default function FanIdPage() {
     <main className="p-6 bg-gray-100 min-h-screen flex flex-col items-center">
       <h1 className="text-2xl font-bold mb-6 text-center">Perfil do Fã</h1>
       <FanCard
-        nickName={fanProfile.nickName}
+        nickname={fanProfile.nickname}
         favoriteGame={fanProfile.favoriteGame}
         fanLevel={fanProfile.fanLevel}
         photoUrl={fanProfile.photoUrl}
