@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
 import { Fan } from "@/interfaces/fan";
- // Corrigido o nome correto
 import { useFanProfile } from "@/contexts/FanProfileContext";
 import { useFanContext } from "@/contexts/FanContextType";
 import { useAuth } from "@/contexts/AuthContext";
@@ -13,7 +12,7 @@ export default function AddFanPage() {
   const router = useRouter();
   const { addFan } = useFanContext();
   const { fanProfile, setFanProfile } = useFanProfile();
-  const { setLogged } = useAuth();; // Corrigido o nome correto
+  const { setLogged } = useAuth();;
   const [nickname, setNickname] = useState("");
   const [favoriteGame, setFavoriteGame] = useState("");
   const [photoFile, setPhotoFile] = useState<File | null>(null);
@@ -23,7 +22,7 @@ export default function AddFanPage() {
     if (fanProfile) {
       router.push("/fan/me");
     }
-  }, [fanProfile, router]); // 👈 Agora observa o contexto
+  }, [fanProfile, router]);
 
   const convertToBase64 = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -49,11 +48,11 @@ export default function AddFanPage() {
       favoriteGame,
       fanLevel,
       photoUrl: base64Photo,
-      photoFile: null, // Definindo o padrão
+      photoFile: null, 
     };
 
-    setFanProfile(newFan); // Atualiza o perfil do usuário
-    addFan(newFan); // Adiciona na lista global de fãs
+    setFanProfile(newFan);
+    addFan(newFan); 
     setLogged(true);
 
     router.push("/fan/me");

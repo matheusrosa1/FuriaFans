@@ -7,12 +7,11 @@ import { Fan } from "@/interfaces/fan";
 import EditProfilePhoto from "@/components/EditProfilePhoto"; 
 import { useFanProfile } from "@/contexts/FanProfileContext";
 import { useFanContext } from "@/contexts/FanContextType";
- // 👈 Importando o contexto de fãs
 
 export default function FanMePage() {
   const router = useRouter();
   const { fanProfile, setFanProfile } = useFanProfile();
-  const { updateFan } = useFanContext(); // 👈 Pegando o updateFan
+  const { updateFan } = useFanContext();
   const [editingField, setEditingField] = useState<keyof Fan | null>(null);
   const [tempValue, setTempValue] = useState<string>("");
   const [editingPhoto, setEditingPhoto] = useState(false);
@@ -35,8 +34,8 @@ export default function FanMePage() {
     
     const updatedProfile = { ...fanProfile, [editingField]: tempValue };
 
-    setFanProfile(updatedProfile); // Atualiza o perfil do usuário logado
-    updateFan(fanProfile.id, { [editingField]: tempValue }); // Atualiza o fã na lista de fãs também
+    setFanProfile(updatedProfile);
+    updateFan(fanProfile.id, { [editingField]: tempValue }); 
     setEditingField(null);
   };
 
@@ -46,7 +45,7 @@ export default function FanMePage() {
     const updatedProfile = { ...fanProfile, photoUrl: newPhotoUrl };
 
     setFanProfile(updatedProfile);
-    updateFan(fanProfile.id, { photoUrl: newPhotoUrl }); // Atualiza também no contexto geral
+    updateFan(fanProfile.id, { photoUrl: newPhotoUrl });
     setEditingPhoto(false);
   };
 

@@ -2,18 +2,19 @@
 
 "use client";
 
+import { Fan } from "@/interfaces/fan";
 import { createContext, useContext, useEffect, useState } from "react";
-import { FanCardProps } from "@/interfaces/fanCardProps";
+
 
 interface FanProfileContextType {
-  fanProfile: FanCardProps | null;
-  setFanProfile: (profile: FanCardProps | null) => void;
+  fanProfile: Fan | null;
+  setFanProfile: (profile: Fan | null) => void;
 }
 
 const FanProfileContext = createContext<FanProfileContextType | undefined>(undefined);
 
 export function FanProfileProvider({ children }: { children: React.ReactNode }) {
-  const [fanProfile, setFanProfileState] = useState<FanCardProps | null>(null);
+  const [fanProfile, setFanProfileState] = useState<Fan | null>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -24,7 +25,7 @@ export function FanProfileProvider({ children }: { children: React.ReactNode }) 
     }
   }, []);
 
-  const setFanProfile = (profile: FanCardProps | null) => {
+  const setFanProfile = (profile: Fan | null) => {
     setFanProfileState(profile);
     if (profile) {
       localStorage.setItem("fanProfile", JSON.stringify(profile));

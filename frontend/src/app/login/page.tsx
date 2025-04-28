@@ -17,7 +17,7 @@ export default function LoginPage() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true); // 🚀 começa loading
+    setIsLoading(true);
 
     try {
       const fakeFanId = crypto.randomUUID();
@@ -40,7 +40,7 @@ export default function LoginPage() {
     } catch (error) {
       console.error("Erro ao fazer login:", error);
     } finally {
-      setIsLoading(false); // 🚀 termina loading (mesmo se der erro)
+      setIsLoading(false);
     }
   };
 

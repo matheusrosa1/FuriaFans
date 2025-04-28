@@ -1,7 +1,6 @@
 "use client";
 
 import { useRouter } from "next/navigation";
- // 👈 usando FanContext
 import { IoPersonSharp } from "react-icons/io5";
 import { SiTheconversation } from "react-icons/si";
 import { MdLogout } from "react-icons/md";
@@ -13,7 +12,7 @@ import { useFanContext } from "@/contexts/FanContextType";
 export default function HomePage() {
   const router = useRouter();
   const { isLogged, setLogged } = useAuth();
-  const { fans } = useFanContext(); // 👈 agora pega os fãs via Context
+  const { fans } = useFanContext();
 
   const handleLoginClick = () => {
     router.push("/login");
