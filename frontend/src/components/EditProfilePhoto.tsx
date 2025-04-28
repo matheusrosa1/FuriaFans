@@ -1,15 +1,16 @@
+import { EditProfilePhotoProps } from "@/interfaces/EditProfilePhotoProps";
+import { getCroppedImg } from "@/utils/cropImage";
 import { useState, useCallback } from "react";
 import Cropper from "react-easy-crop";
-import { getCroppedImg } from "./utils/cropImage";
 
-export default function EditProfilePhoto() {
+export default function EditProfilePhoto({ onSave, onCancel }: EditProfilePhotoProps) {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
   const [croppedImage, setCroppedImage] = useState<string | null>(null);
 
-  const onCropComplete = useCallback((_, croppedAreaPixels) => {
+  const onCropComplete = useCallback((_: any, croppedAreaPixels: any) => {
     setCroppedAreaPixels(croppedAreaPixels);
   }, []);
 
@@ -29,13 +30,15 @@ export default function EditProfilePhoto() {
     });
   };
 
-  const showCroppedImage = useCallback(async () => {
+  const generateCroppedImage = useCallback(async () => {
     try {
-      const croppedImage = await getCroppedImg(
+      const cropped = await getCroppedImg(
         imageSrc as string,
         croppedAreaPixels
       );
-      setCroppedImage(croppedImage);
+      if (cropped) {
+        setCroppedImage(cropped); // Salva o preview primeiro
+      }
     } catch (e) {
       console.error(e);
     }
@@ -44,43 +47,73 @@ export default function EditProfilePhoto() {
   return (
     <div className="flex flex-col items-center p-4">
       {!imageSrc && (
-        <input type="file" accept="image/*" onChange={handleFileChange} />
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleFileChange}
+          className="mb-4"
+        />
       )}
 
-      {imageSrc && (
-        <div className="relative w-80 h-80">
-          <Cropper
-            image={imageSrc}
-            crop={crop}
-            zoom={zoom}
-            aspect={1}
-            cropShape="round"
-            showGrid={false}
-            onCropChange={setCrop}
-            onZoomChange={setZoom}
-            onCropComplete={onCropComplete}
-          />
-        </div>
-      )}
+      {imageSrc && !croppedImage && (
+        <>
+          <div className="relative w-80 h-80">
+            <Cropper
+              image={imageSrc}
+              crop={crop}
+              zoom={zoom}
+              aspect={1}
+              cropShape="round"
+              showGrid={false}
+              onCropChange={setCrop}
+              onZoomChange={setZoom}
+              onCropComplete={onCropComplete}
+            />
+          </div>
 
-      {imageSrc && (
-        <button
-          onClick={showCroppedImage}
-          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
-        >
-          Salvar Imagem
-        </button>
+          <div className="flex gap-4 mt-4">
+            <button
+              onClick={generateCroppedImage}
+              className="px-4 py-2 bg-blue-500 text-white rounded"
+            >
+              Recortar Imagem
+            </button>
+            <button
+              onClick={onCancel}
+              className="px-4 py-2 bg-gray-500 text-white rounded"
+            >
+              Cancelar
+            </button>
+          </div>
+        </>
       )}
 
       {croppedImage && (
-        <div className="mt-4">
-          <h3>Imagem Recortada:</h3>
-          <img
-            src={croppedImage}
-            alt="Cropped"
-            className="w-40 h-40 rounded-full object-cover"
-          />
-        </div>
+        <>
+          <div className="flex flex-col items-center mt-6">
+            <h3 className="text-lg font-semibold mb-2 text-white">Preview da Imagem Recortada:</h3>
+            <img
+              src={croppedImage}
+              alt="Cropped"
+              className="w-40 h-40 rounded-full object-cover border"
+            />
+          </div>
+
+          <div className="flex gap-4 mt-4">
+            <button
+              onClick={() => onSave(croppedImage)}
+              className="px-4 py-2 bg-green-500 text-white rounded"
+            >
+              Confirmar
+            </button>
+            <button
+              onClick={onCancel}
+              className="px-4 py-2 bg-gray-500 text-white rounded"
+            >
+              Cancelar
+            </button>
+          </div>
+        </>
       )}
     </div>
   );

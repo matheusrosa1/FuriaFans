@@ -1,45 +1,44 @@
-// src/utils/cropImage.ts
-import { Area } from 'react-easy-crop';
-
-export const getCroppedImg = (imageSrc: string, pixelCrop: Area): Promise<string> => {
+export const getCroppedImg = (imageSrc: string, croppedAreaPixels: any): Promise<string> => {
   return new Promise((resolve, reject) => {
     const image = new Image();
     image.src = imageSrc;
+    image.crossOrigin = "anonymous"; // Para evitar problemas de CORS
+
     image.onload = () => {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
 
-      const scaleX = image.naturalWidth / image.width;
-      const scaleY = image.naturalHeight / image.height;
-
-      canvas.width = pixelCrop.width;
-      canvas.height = pixelCrop.height;
-
-      if (ctx) {
-        ctx.drawImage(
-          image,
-          pixelCrop.x * scaleX,
-          pixelCrop.y * scaleY,
-          pixelCrop.width * scaleX,
-          pixelCrop.height * scaleY,
-          0,
-          0,
-          pixelCrop.width,
-          pixelCrop.height
-        );
-
-        canvas.toBlob((blob) => {
-          if (blob) {
-            const croppedImageUrl = URL.createObjectURL(blob);
-            resolve(croppedImageUrl);
-          } else {
-            reject(new Error('Canvas is empty'));
-          }
-        }, 'image/jpeg');
-      } else {
-        reject(new Error('No 2d context'));
+      if (!ctx) {
+        return reject(new Error('Failed to get canvas context'));
       }
+
+      // Define o tamanho do canvas
+      canvas.width = croppedAreaPixels.width;
+      canvas.height = croppedAreaPixels.height;
+
+      // 🔥 Aqui que arrumamos:
+      // Preenche o fundo do canvas com transparente
+      ctx.fillStyle = "rgba(0,0,0,0)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Desenha a imagem cortada
+      ctx.drawImage(
+        image,
+        croppedAreaPixels.x,
+        croppedAreaPixels.y,
+        croppedAreaPixels.width,
+        croppedAreaPixels.height,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
+
+      // Gera o base64 da imagem recortada
+      const base64Image = canvas.toDataURL('image/png');
+      resolve(base64Image);
     };
+
     image.onerror = (error) => {
       reject(error);
     };

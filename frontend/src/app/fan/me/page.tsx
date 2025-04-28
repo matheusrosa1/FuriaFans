@@ -1,16 +1,19 @@
-"use client";
+// app/fan/me/page.tsx
 
+"use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useFanProfile } from "@/contexts/FanProfileContext";
 import { Button } from "@/components/Button";
 import { FanProfile } from "@/interfaces/fanProfile";
+import EditProfilePhoto from "@/components/EditProfilePhoto"; 
+import { useFanProfile } from "@/contexts/FanProfileContext";
 
 export default function FanMePage() {
   const router = useRouter();
   const { fanProfile, setFanProfile } = useFanProfile();
-  const [editingField, setEditingField] = useState<keyof typeof fanProfile | null>(null);
+  const [editingField, setEditingField] = useState<keyof FanProfile | null>(null);
   const [tempValue, setTempValue] = useState<string>("");
+  const [editingPhoto, setEditingPhoto] = useState(false); // Novo estado para editar foto
 
   if (!fanProfile) {
     return (
@@ -24,13 +27,19 @@ export default function FanMePage() {
     setEditingField(key);
     setTempValue(fanProfile ? fanProfile[key] ?? "" : "");
   };
-  
 
   const handleSave = () => {
     if (!fanProfile || !editingField) return;
     const updatedProfile = { ...fanProfile, [editingField]: tempValue };
     setFanProfile(updatedProfile);
     setEditingField(null);
+  };
+
+  const handlePhotoSave = (newPhotoUrl: string) => {
+    if (!fanProfile) return;
+    const updatedProfile = { ...fanProfile, photoUrl: newPhotoUrl };
+    setFanProfile(updatedProfile);
+    setEditingPhoto(false);
   };
 
   const labels: Record<string, string> = {
@@ -50,15 +59,29 @@ export default function FanMePage() {
       <div className="w-full max-w-2xl bg-white p-8 rounded-lg shadow flex flex-col items-center">
         <h1 className="text-2xl font-bold mb-6 text-center">Meu Perfil</h1>
 
-        {fanProfile.photoUrl && (
-          <img
-            src={fanProfile.photoUrl}
-            alt="Avatar"
-            className="w-24 h-24 rounded-full object-cover border mb-4"
+        {fanProfile.photoUrl && !editingPhoto && (
+          <>
+            <img
+              src={fanProfile.photoUrl}
+              alt="Avatar"
+              className="w-24 h-24 rounded-full object-cover border mb-4"
+            />
+            <Button
+              label="Editar Foto"
+              onClick={() => setEditingPhoto(true)}
+              type="button"
+            />
+          </>
+        )}
+
+        {editingPhoto && (
+          <EditProfilePhoto
+            onSave={handlePhotoSave}
+            onCancel={() => setEditingPhoto(false)}
           />
         )}
 
-        <ul className="text-sm text-gray-800 w-full max-w-sm">
+        <ul className="text-sm text-gray-800 w-full max-w-sm mt-6">
           {Object.entries(fanProfile).map(([key, value]) => (
             key === "photoUrl" ? null : (
               <li key={key} className="mb-4 flex flex-col sm:flex-row sm:justify-between sm:items-center">
@@ -83,7 +106,7 @@ export default function FanMePage() {
                     </span>
                     <Button
                       label="Editar"
-                      onClick={() => handleEdit(key as keyof typeof FanProfile)}
+                      onClick={() => handleEdit(key as keyof FanProfile)}
                       type="button"
                     />
                   </div>

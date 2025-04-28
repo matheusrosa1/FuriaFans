@@ -2,66 +2,66 @@ import { FanCardProps } from "../interfaces/fanCardProps";
 
 export const mockFans: FanCardProps[] = [
   {
-    name: "Lucas Matador",
+    nickname: "Lucas Matador",
     favoriteGame: "CS:GO",
     fanLevel: "hardcore",
     photoUrl:
       "https://ui-avatars.com/api/?name=Lucas+Matador&background=random",
   },
   {
-    name: "Bia Rush",
+    nickname: "Bia Rush",
     favoriteGame: "Valorant",
     fanLevel: "engaged",
     photoUrl: "https://ui-avatars.com/api/?name=Bia+Rush&background=random",
   },
   {
-    name: "João Chill",
+    nickname: "João Chill",
     favoriteGame: "League of Legends",
     fanLevel: "casual",
     photoUrl: "https://ui-avatars.com/api/?name=Joao+Chill&background=random",
   },
   {
-    name: "Ana Pro",
+    nickname: "Ana Pro",
     favoriteGame: "Dota 2",
     fanLevel: "hardcore",
     photoUrl: "https://ui-avatars.com/api/?name=Ana+Pro&background=random",
   },
   {
-    name: "Carlos Sniper",
+    nickname: "Carlos Sniper",
     favoriteGame: "Apex Legends",
     fanLevel: "engaged",
     photoUrl:
       "https://ui-avatars.com/api/?name=Carlos+Sniper&background=random",
   },
   {
-    name: "Fernanda Gamer",
+    nickname: "Fernanda Gamer",
     favoriteGame: "Fortnite",
     fanLevel: "casual",
     photoUrl:
       "https://ui-avatars.com/api/?name=Fernanda+Gamer&background=random",
   },
   {
-    name: "Ricardo Speed",
+    nickname: "Ricardo Speed",
     favoriteGame: "Overwatch",
     fanLevel: "hardcore",
     photoUrl:
       "https://ui-avatars.com/api/?name=Ricardo+Speed&background=random",
   },
   {
-    name: "Mariana Ninja",
+    nickname: "Mariana Ninja",
     favoriteGame: "Call of Duty",
     fanLevel: "engaged",
     photoUrl:
       "https://ui-avatars.com/api/?name=Mariana+Ninja&background=random",
   },
   {
-    name: "Felipe Master",
+    nickname: "Felipe Master",
     favoriteGame: "PUBG",
     fanLevel: "casual",
     photoUrl: "https://ui-avatars.com/api/?name=Felipe+Master&background=random",
   },
   {
-    name: "Juliana Pro",
+    nickname: "Juliana Pro",
     favoriteGame: "Rainbow Six Siege",
     fanLevel: "hardcore",
     photoUrl:
