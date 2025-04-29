@@ -7,4 +7,5 @@ export interface Fan {
   fanLevel: 'casual' | 'engaged' | 'hardcore';
   photoUrl?: string;
   photoFile?: File | null;
+  isFavorite?: boolean;
 }

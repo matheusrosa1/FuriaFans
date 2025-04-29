@@ -4,18 +4,36 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { Fan } from "@/interfaces/fan";
 
-const FanCard: React.FC<Fan> = ({ id, nickname, favoriteGame, fanLevel, photoUrl }) => {
+import { FaHeart, FaRegHeart } from "react-icons/fa"; // Agora só importamos o coração
+import { useFanContext } from "@/contexts/FanContextType";
+
+const FanCard: React.FC<Fan> = ({ id, nickname, favoriteGame, fanLevel, photoUrl, isFavorite }) => {
   const router = useRouter();
+  const { updateFan } = useFanContext();
 
   const handleClick = () => {
-    router.push(`/fan/${id}`); // 👈 Navega para a página do fã clicado
+    router.push(`/fan/${id}`);
+  };
+
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    updateFan(id, { isFavorite: !isFavorite });
   };
 
   return (
     <div
       onClick={handleClick}
-      className="border rounded-xl p-4 shadow bg-white/30 backdrop-blur-md w-[250px] flex flex-col items-center transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-purple-700/70 hover:-translate-y-1 cursor-pointer"
+      className="relative border rounded-xl p-4 shadow bg-white/30 backdrop-blur-md w-[250px] flex flex-col items-center transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-purple-700/70 hover:-translate-y-1 cursor-pointer"
     >
+      <button
+        onClick={handleFavoriteClick}
+        className={`absolute top-2 right-2 transition-colors ${
+          isFavorite ? "text-purple-600" : "text-black"
+        } hover:text-purple-700`}
+      >
+        {isFavorite ? <FaHeart size={20} /> : <FaRegHeart size={20} />}
+      </button>
+
       {photoUrl && (
         <img
           src={photoUrl}
