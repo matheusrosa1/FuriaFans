@@ -1,10 +1,9 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-
-import { Button } from "@/components/Button";
 import { useFanContext } from "@/contexts/FanContextType";
 import FanProfileView from "@/components/FanProfileView";
+import Navbar from "@/components/Navbar";
 
 
 
@@ -25,12 +24,8 @@ export default function FanIdPage() {
 
   return (
     <main className="p-6 bg-gray-100 min-h-screen flex flex-col items-center bg-[url(/Torcida-FURIA-IEM-Rio-Major-2022.jpg)]">
-      <div className="flex justify-end w-full max-w-2xl mb-6 gap-4">
-        <Button label="Home" onClick={() => router.push("/")} />
-        <Button label="Drops" onClick={() => router.push("/drops")} />
-      </div>
+      <Navbar />
 
-      {/* Agora usando FanProfileView */}
       <FanProfileView fan={fan} showFavoriteButton />
     </main>
   );

@@ -1,11 +1,9 @@
-// src/app/drops/page.tsx
-
 "use client";
+
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { DropMessage } from "../../interfaces/dropMessage";
-import { Button } from "@/components/Button";
-import { IoPersonSharp } from "react-icons/io5";
+import Navbar from "@/components/Navbar";
 import { useAuth } from "@/contexts/AuthContext";
 import { useFanProfile } from "@/contexts/FanProfileContext";
 
@@ -56,52 +54,21 @@ export default function DropsPage() {
     setInput("");
   };
 
-  const handleAuthRedirect = (path: string) => {
-    localStorage.setItem("redirectAfterAuth", "/drops");
-    router.push(path);
-  };
-
   return (
     <main className="p-6 bg-gray-100 min-h-screen bg-[url(/Torcida-FURIA-IEM-Rio-Major-2022.jpg)]">
+
+      <Navbar />
+
       <div className="max-w-3xl mx-auto">
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex justify-center items-center mb-8 mt-4">
           <h1 className="text-3xl font-bold text-white">Drops</h1>
-          <div className="flex gap-2">
-            <Button
-              label="Home"
-              onClick={() => router.push("/")}
-              />
-              {isLogged ? (
-                <Button
-                  label="Meu perfil"
-                  onClick={() => router.push("/fan/me")}
-                  icon={<IoPersonSharp size={20} />}
-                 /> ) : (
-                <>
-                <Button
-                  label="Login"
-                  onClick={() => handleAuthRedirect("/login")}
-                  icon={<IoPersonSharp size={20} />}
-                />
-                <Button
-                  label="Cadastrar-se"
-                  onClick={() => handleAuthRedirect("/register")}
-                  icon={<IoPersonSharp size={20} />}
-                />
-                </>
-             )}
-             {(isLogged && !fanProfile) && (
-              <Button
-                label="Tornar-me fã"
-                onClick={() => router.push("/add-fan")}
-                />   
-              )}
-          </div>
         </div>
 
-        <p className="text-gray-600 mb-6 text-white">Compartilhe momentos, grite sua torcida!</p>
+        <p className="text-gray-600 mb-6 text-center text-white">
+          Compartilhe momentos, grite sua torcida!
+        </p>
 
-        <div className="mb-6 ">
+        <div className="mb-6">
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -118,18 +85,16 @@ export default function DropsPage() {
           >
             Enviar
           </button>
+
           {(!isLogged) && (
             <div className="mt-2 text-sm text-red-500">
               <p>Você precisa estar logado para enviar mensagens.</p>
-              <div className="mt-2 flex gap-2">
-              </div>
             </div>
           )}
+
           {(isLogged && !fanProfile) && (
             <div className="mt-2 text-sm text-red-500">
               <p>Você precisa criar um perfil de fã para enviar mensagens.</p>
-              <div className="mt-2 flex gap-2">
-              </div>
             </div>
           )}
         </div>

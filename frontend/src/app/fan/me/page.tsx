@@ -7,6 +7,7 @@ import { Fan } from "@/interfaces/fan";
 import EditProfilePhoto from "@/components/EditProfilePhoto"; 
 import { useFanProfile } from "@/contexts/FanProfileContext";
 import { useFanContext } from "@/contexts/FanContextType";
+import Navbar from "@/components/Navbar";
 
 export default function FanMePage() {
   const router = useRouter();
@@ -19,7 +20,8 @@ export default function FanMePage() {
   if (!fanProfile) {
     return (
       <main className="p-6 min-h-screen flex items-center justify-center bg-gray-100">
-        <p className="text-gray-700 text-xl">Carregando perfil...</p>
+        <Navbar /> {/* Navbar mesmo se perfil ainda estiver carregando */}
+        <p className="text-gray-700 text-xl mt-8">Carregando perfil...</p>
       </main>
     );
   }
@@ -35,7 +37,7 @@ export default function FanMePage() {
     const updatedProfile = { ...fanProfile, [editingField]: tempValue };
 
     setFanProfile(updatedProfile);
-    updateFan(fanProfile.id, { [editingField]: tempValue }); 
+    updateFan(fanProfile.id, { [editingField]: tempValue });
     setEditingField(null);
   };
 
@@ -57,12 +59,10 @@ export default function FanMePage() {
 
   return (
     <main className="p-6 bg-gray-100 min-h-screen flex flex-col items-center bg-[url(/Torcida-FURIA-IEM-Rio-Major-2022.jpg)]">
-      <div className="flex justify-end w-full max-w-2xl mb-6 gap-4">
-        <Button label="Home" onClick={() => router.push("/")} />
-        <Button label="Drops" onClick={() => router.push("/drops")} />
-      </div>
 
-      <div className="w-full max-w-2xl bg-white p-8 rounded-lg shadow flex flex-col items-center">
+      <Navbar />
+
+      <div className="w-full max-w-2xl bg-white p-8 rounded-lg shadow flex flex-col items-center mt-8">
         <h1 className="text-2xl font-bold mb-6 text-center">Meu Perfil</h1>
 
         {fanProfile.photoUrl && !editingPhoto && (

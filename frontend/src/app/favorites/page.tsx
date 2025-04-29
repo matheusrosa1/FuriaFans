@@ -1,44 +1,33 @@
 "use client";
 
-
-import FanProfileView from "@/components/FanProfileView";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/Button";
 import { useFanContext } from "@/contexts/FanContextType";
+import Navbar from "@/components/Navbar";
+import FanCard from "@/components/FanCard";
 
 export default function FavoritesPage() {
   const { fans } = useFanContext();
   const router = useRouter();
 
-  // Filtra apenas os favoritos
   const favoriteFans = fans.filter((fan) => fan.isFavorite);
 
-  if (favoriteFans.length === 0) {
-    return (
-      <main className="p-6 min-h-screen flex flex-col items-center justify-center bg-gray-100">
-        <div className="flex justify-end w-full max-w-2xl mb-6 gap-4">
-          <Button label="Home" onClick={() => router.push("/")} />
-          <Button label="Drops" onClick={() => router.push("/drops")} />
-        </div>
-        <p className="text-gray-700 text-xl">Nenhum fã favoritado ainda.</p>
-      </main>
-    );
-  }
-
   return (
-    <main className="p-6 bg-gray-100 min-h-screen flex flex-col items-center bg-[url(/Torcida-FURIA-IEM-Rio-Major-2022.jpg)]">
-      <div className="flex justify-end w-full max-w-2xl mb-6 gap-4">
-        <Button label="Home" onClick={() => router.push("/")} />
-        <Button label="Drops" onClick={() => router.push("/drops")} />
+    <main className="p-6 min-h-screen bg-[url(/Torcida-FURIA-IEM-Rio-Major-2022.jpg)]">
+      <Navbar />
+
+      <div className="flex justify-center items-center mb-8 mt-4">
+        <h1 className="text-3xl font-bold text-white">Meus Fãs Favoritos</h1>
       </div>
 
-      <h1 className="text-2xl font-bold mb-6 text-center">Meus Fãs Favoritos</h1>
-
-      <div className="flex flex-col gap-6 items-center">
-        {favoriteFans.map((fan) => (
-          <FanProfileView key={fan.id} fan={fan} showFavoriteButton />
-        ))}
-      </div>
+      {favoriteFans.length === 0 ? (
+        <p className="text-center text-gray-300 text-xl">Nenhum fã favoritado ainda.</p>
+      ) : (
+        <div className="flex flex-wrap gap-4 w-full justify-center">
+          {favoriteFans.map((fan) => (
+            <FanCard key={fan.id} {...fan} />
+          ))}
+        </div>
+      )}
     </main>
   );
 }
