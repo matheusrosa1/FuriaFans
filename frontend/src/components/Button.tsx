@@ -3,7 +3,7 @@
 import React from "react";
 
 interface ButtonProps {
-  label: string;
+  label?: string;
   onClick?: () => void;
   type?: "button" | "submit" | "reset";
   icon?: React.ReactNode; // 👈 ícone opcional
