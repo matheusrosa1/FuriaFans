@@ -6,9 +6,13 @@ import { Fan } from "@/interfaces/fan";
 
 import { FaHeart, FaRegHeart } from "react-icons/fa"; // Agora só importamos o coração
 import { useFanContext } from "@/contexts/FanContextType";
+import { useFanProfile } from "@/contexts/FanProfileContext";
+import { useAuth } from "@/contexts/AuthContext";
 
 const FanCard: React.FC<Fan> = ({ id, nickname, favoriteGame, fanLevel, photoUrl, isFavorite }) => {
   const router = useRouter();
+  const { fanProfile } = useFanProfile();
+  const { isLogged } = useAuth();
   const { updateFan } = useFanContext();
 
   const handleClick = () => {
@@ -25,14 +29,26 @@ const FanCard: React.FC<Fan> = ({ id, nickname, favoriteGame, fanLevel, photoUrl
       onClick={handleClick}
       className="relative border rounded-xl p-4 shadow bg-white/30 backdrop-blur-md w-[250px] flex flex-col items-center transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-purple-700/70 hover:-translate-y-1 cursor-pointer"
     >
-      <button
-        onClick={handleFavoriteClick}
-        className={`absolute top-2 right-2 transition-colors ${
-          isFavorite ? "text-purple-600" : "text-black"
-        } hover:text-purple-700`}
-      >
-        {isFavorite ? <FaHeart size={20} /> : <FaRegHeart size={20} />}
-      </button>
+
+    <button
+      onClick={(e) => {
+        if (!isLogged || !fanProfile) {
+          e.preventDefault();
+          e.stopPropagation();
+          return; // impede clique se não logado
+        }
+      handleFavoriteClick(e);
+      }}
+      disabled={!isLogged || !fanProfile}
+      title={!isLogged || !fanProfile ? "Você deve estar logado e ser um fã para favoritar" : ""}
+      className={`absolute top-2 right-2 transition-colors ${
+      isFavorite ? "text-purple-600" : "text-black"
+      } hover:text-purple-700 ${
+      (!isLogged || !fanProfile) ? "opacity-50 cursor-not-allowed" : ""}`}
+    >
+      {isFavorite ? <FaHeart size={20} /> : <FaRegHeart size={20} />}
+    </button>
+
 
       {photoUrl && (
         <img

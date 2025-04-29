@@ -4,6 +4,7 @@ import "./globals.css";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { FanProfileProvider } from "@/contexts/FanProfileContext";
 import { FanProvider } from "@/contexts/FanContextType";
+import { DropsProvider } from "@/contexts/DropsContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +28,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <AuthProvider>
           <FanProfileProvider>
             <FanProvider> 
-          {children}
+              <DropsProvider>
+                {children}
+              </DropsProvider>
             </FanProvider>
           </FanProfileProvider>
         </AuthProvider>

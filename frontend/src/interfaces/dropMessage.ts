@@ -3,4 +3,5 @@ export interface DropMessage {
   author: string;
   content: string;
   timestamp: string;
+  likedBy: string[];
 }
