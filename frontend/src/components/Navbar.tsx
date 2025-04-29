@@ -15,7 +15,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="sticky top-0 z-50 p-4 flex justify-center gap-4">
+    <nav className="p-4 flex justify-center gap-4">
       {pathname !== "/" && (
         <Button label="Home" onClick={() => router.push("/")} />
       )}
