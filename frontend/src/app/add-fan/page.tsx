@@ -7,15 +7,20 @@ import { Fan } from "@/interfaces/fan";
 import { useFanProfile } from "@/contexts/FanProfileContext";
 import { useFanContext } from "@/contexts/FanContextType";
 import { useAuth } from "@/contexts/AuthContext";
+import EditProfilePhoto from "@/components/EditProfilePhoto";
+import { gameList } from "@/mocks/gameList";
 
 export default function AddFanPage() {
   const router = useRouter();
   const { addFan } = useFanContext();
   const { fanProfile, setFanProfile } = useFanProfile();
-  const { setLogged } = useAuth();;
+  const { setLogged } = useAuth();
+
   const [nickname, setNickname] = useState("");
   const [favoriteGame, setFavoriteGame] = useState("");
-  const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [customGame, setCustomGame] = useState("");
+  const [photoUrl, setPhotoUrl] = useState<string | null>(null);
+  const [showCropper, setShowCropper] = useState(false);
   const [fanLevel, setFanLevel] = useState<Fan["fanLevel"]>("casual");
 
   useEffect(() => {
@@ -24,37 +29,23 @@ export default function AddFanPage() {
     }
   }, [fanProfile, router]);
 
-  const convertToBase64 = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = (error) => reject(error);
-    });
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    let base64Photo = "";
-
-    if (photoFile) {
-      base64Photo = await convertToBase64(photoFile);
-    }
+    const finalGame = favoriteGame === "Outro" ? customGame : favoriteGame;
 
     const newFan: Fan = {
       id: uuidv4(),
       nickname,
-      favoriteGame,
+      favoriteGame: finalGame,
       fanLevel,
-      photoUrl: base64Photo,
-      photoFile: null, 
+      photoUrl: photoUrl || "",
+      photoFile: null,
     };
 
     setFanProfile(newFan);
-    addFan(newFan); 
+    addFan(newFan);
     setLogged(true);
-
     router.push("/fan/me");
   };
 
@@ -79,30 +70,66 @@ export default function AddFanPage() {
 
         <label className="block mb-4">
           <span className="block text-sm font-medium text-gray-700">Jogo favorito:</span>
-          <input
-            type="text"
+          <select
             value={favoriteGame}
             onChange={(e) => setFavoriteGame(e.target.value)}
             required
             className="mt-1 block w-full border rounded px-3 py-2"
-          />
+          >
+            <option value="">Selecione um jogo</option>
+            {gameList.map((game) => (
+              <option key={game} value={game}>
+                {game === "Outro" ? "Outro (escreva)" : game}
+              </option>
+            ))}
+          </select>
+
+          {favoriteGame === "Outro" && (
+            <input
+              type="text"
+              placeholder="Digite o nome do jogo"
+              value={customGame}
+              onChange={(e) => setCustomGame(e.target.value)}
+              className="mt-2 block w-full border rounded px-3 py-2"
+              required
+            />
+          )}
         </label>
 
-        <label className="block mb-4">
+        {/* Imagem com recorte */}
+        <div className="mb-4">
           <span className="block text-sm font-medium text-gray-700">Foto (opcional):</span>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => {
-              if (e.target.files && e.target.files[0]) {
-                setPhotoFile(e.target.files[0]);
-              } else {
-                setPhotoFile(null);
-              }
-            }}
-            className="mt-1 block w-full border rounded px-3 py-2"
-          />
-        </label>
+
+          {photoUrl && (
+            <div className="flex justify-center my-3">
+              <img
+                src={photoUrl}
+                alt="Preview"
+                className="w-24 h-24 rounded-full object-cover border"
+              />
+            </div>
+          )}
+
+          {!showCropper && (
+            <button
+              type="button"
+              onClick={() => setShowCropper(true)}
+              className="mt-2 px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+            >
+              Selecionar Foto
+            </button>
+          )}
+
+          {showCropper && (
+            <EditProfilePhoto
+              onSave={(croppedImg) => {
+                setPhotoUrl(croppedImg);
+                setShowCropper(false);
+              }}
+              onCancel={() => setShowCropper(false)}
+            />
+          )}
+        </div>
 
         <label className="block mb-6">
           <span className="block text-sm font-medium text-gray-700">Nível de fã:</span>

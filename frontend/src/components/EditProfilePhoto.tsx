@@ -73,12 +73,14 @@ export default function EditProfilePhoto({ onSave, onCancel }: EditProfilePhotoP
 
           <div className="flex gap-4 mt-4">
             <button
+              type="button"
               onClick={generateCroppedImage}
               className="px-4 py-2 bg-blue-500 text-white rounded"
             >
               Recortar Imagem
             </button>
             <button
+              type="button"
               onClick={onCancel}
               className="px-4 py-2 bg-gray-500 text-white rounded"
             >
@@ -101,6 +103,7 @@ export default function EditProfilePhoto({ onSave, onCancel }: EditProfilePhotoP
 
           <div className="flex gap-4 mt-4">
             <button
+              type="button"
               onClick={() => onSave(croppedImage)}
               className="px-4 py-2 bg-green-500 text-white rounded"
             >
