@@ -40,7 +40,7 @@ const FanCard: React.FC<Fan> = ({ id, nickname, favoriteGame, fanLevel, photoUrl
       handleFavoriteClick(e);
       }}
       disabled={!isLogged || !fanProfile}
-      title={!isLogged || !fanProfile ? "Você deve estar logado e ser um fã para favoritar" : ""}
+      title={!isLogged || !fanProfile ? "Você deve estar logado e ser um fã para favoritar" : "Favoritar"}
       className={`absolute top-2 right-2 transition-colors ${
       isFavorite ? "text-purple-600" : "text-black"
       } hover:text-purple-700 ${

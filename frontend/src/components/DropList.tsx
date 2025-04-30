@@ -5,14 +5,13 @@ import { GrLike } from "react-icons/gr";
 import { useFanProfile } from "@/contexts/FanProfileContext";
 
 interface DropListProps {
-  onlyByFanId?: string; // usado no perfil de fã
+  onlyByFanId?: string;
 }
 
 export default function DropList({ onlyByFanId }: DropListProps) {
   const { messages, toggleLike } = useDrops();
   const { fanProfile } = useFanProfile();
 
-  // 🔁 Agora filtrando pelo ID do fã (fanId), não mais pelo nickname
   const filtered = onlyByFanId
     ? messages.filter((msg) => msg.fanId === onlyByFanId)
     : messages;
