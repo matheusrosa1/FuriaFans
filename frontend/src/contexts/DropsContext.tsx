@@ -8,6 +8,8 @@ interface DropsContextType {
   messages: DropMessage[];
   addMessage: (message: { content: string }) => void;
   toggleLike: (messageId: string, userId: string) => void;
+  editMessage: (messageId: string, newContent: string) => void;
+  deleteMessage: (messageId: string) => void;
 }
 
 const DropsContext = createContext<DropsContextType | undefined>(undefined);
@@ -24,7 +26,7 @@ export const DropsProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       const safeMessages = parsed.map((msg: any) => ({
         ...msg,
         likedBy: Array.isArray(msg.likedBy) ? msg.likedBy : [],
-        fanId: msg.fanId || "", // garante que sempre exista fanId, mesmo que esteja vazio (temporário)
+        fanId: msg.fanId || "",
       }));
       setMessages(safeMessages);
     } else {
@@ -49,6 +51,11 @@ export const DropsProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   }, []);
 
+  const persist = (updatedMessages: DropMessage[]) => {
+    setMessages(updatedMessages);
+    localStorage.setItem("dropsMessages", JSON.stringify(updatedMessages));
+  };
+
   const addMessage = ({ content }: { content: string }) => {
     if (!fanProfile) return;
 
@@ -62,8 +69,7 @@ export const DropsProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     };
 
     const updated = [newMessage, ...messages];
-    setMessages(updated);
-    localStorage.setItem("dropsMessages", JSON.stringify(updated));
+    persist(updated);
   };
 
   const toggleLike = (messageId: string, userId: string) => {
@@ -77,12 +83,33 @@ export const DropsProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       return msg;
     });
 
-    setMessages(updated);
-    localStorage.setItem("dropsMessages", JSON.stringify(updated));
+    persist(updated);
+  };
+
+  const editMessage = (messageId: string, newContent: string) => {
+    if (!fanProfile) return;
+
+    const updated = messages.map((msg) =>
+      msg.id === messageId && msg.fanId === fanProfile.id
+        ? { ...msg, content: newContent }
+        : msg
+    );
+
+    persist(updated);
+  };
+
+  const deleteMessage = (messageId: string) => {
+    if (!fanProfile) return;
+
+    const updated = messages.filter(
+      (msg) => !(msg.id === messageId && msg.fanId === fanProfile.id)
+    );
+
+    persist(updated);
   };
 
   return (
-    <DropsContext.Provider value={{ messages, addMessage, toggleLike }}>
+    <DropsContext.Provider value={{ messages, addMessage, toggleLike, editMessage, deleteMessage }}>
       {children}
     </DropsContext.Provider>
   );

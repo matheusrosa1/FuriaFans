@@ -35,7 +35,7 @@ const FanCard: React.FC<Fan> = ({ id, nickname, favoriteGame, fanLevel, photoUrl
         if (!isLogged || !fanProfile) {
           e.preventDefault();
           e.stopPropagation();
-          return; // impede clique se não logado
+          return;
         }
       handleFavoriteClick(e);
       }}
