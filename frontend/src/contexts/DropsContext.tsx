@@ -1,12 +1,12 @@
-// src/contexts/DropsContext.tsx
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { DropMessage } from "@/interfaces/dropMessage";
+import { useFanProfile } from "@/contexts/FanProfileContext";
 
 interface DropsContextType {
   messages: DropMessage[];
-  addMessage: (message: DropMessage) => void;
+  addMessage: (message: { content: string }) => void;
   toggleLike: (messageId: string, userId: string) => void;
 }
 
@@ -14,23 +14,33 @@ const DropsContext = createContext<DropsContextType | undefined>(undefined);
 
 export const DropsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [messages, setMessages] = useState<DropMessage[]>([]);
+  const { fanProfile } = useFanProfile();
 
   useEffect(() => {
-    const storedMessages = localStorage.getItem("dropsMessages");
-    if (storedMessages) {
-      setMessages(JSON.parse(storedMessages));
+    const stored = localStorage.getItem("dropsMessages");
+
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      const safeMessages = parsed.map((msg: any) => ({
+        ...msg,
+        likedBy: Array.isArray(msg.likedBy) ? msg.likedBy : [],
+        fanId: msg.fanId || "", // garante que sempre exista fanId, mesmo que esteja vazio (temporário)
+      }));
+      setMessages(safeMessages);
     } else {
       setMessages([
         {
           id: crypto.randomUUID(),
           author: "Bia Rush",
+          fanId: "51ea6888-68d7-49a3-a2e3-e9679abd21b6",
           content: "FURIA rumo ao topo! 💜",
           timestamp: new Date().toLocaleTimeString(),
           likedBy: [],
         },
         {
           id: crypto.randomUUID(),
-          author: "Lucas Matador",
+          author: "Lucas Killer",
+          fanId: "a5894e6a-c94e-4d5f-9e98-97011523d35b",
           content: "A torcida mais insana do CS está aqui!",
           timestamp: new Date().toLocaleTimeString(),
           likedBy: [],
@@ -39,14 +49,25 @@ export const DropsProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   }, []);
 
-  const addMessage = (message: DropMessage) => {
-    const updatedMessages = [message, ...messages];
-    setMessages(updatedMessages);
-    localStorage.setItem("dropsMessages", JSON.stringify(updatedMessages));
+  const addMessage = ({ content }: { content: string }) => {
+    if (!fanProfile) return;
+
+    const newMessage: DropMessage = {
+      id: crypto.randomUUID(),
+      author: fanProfile.nickname,
+      fanId: fanProfile.id,
+      content,
+      timestamp: new Date().toLocaleTimeString(),
+      likedBy: [],
+    };
+
+    const updated = [newMessage, ...messages];
+    setMessages(updated);
+    localStorage.setItem("dropsMessages", JSON.stringify(updated));
   };
 
   const toggleLike = (messageId: string, userId: string) => {
-    const updatedMessages = messages.map((msg) => {
+    const updated = messages.map((msg) => {
       if (msg.id === messageId) {
         const likedBy = msg.likedBy.includes(userId)
           ? msg.likedBy.filter((id) => id !== userId)
@@ -55,8 +76,9 @@ export const DropsProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       }
       return msg;
     });
-    setMessages(updatedMessages);
-    localStorage.setItem("dropsMessages", JSON.stringify(updatedMessages));
+
+    setMessages(updated);
+    localStorage.setItem("dropsMessages", JSON.stringify(updated));
   };
 
   return (

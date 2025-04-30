@@ -1,37 +1,24 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import { useAuth } from "@/contexts/AuthContext";
 import { useFanProfile } from "@/contexts/FanProfileContext";
 import { FaPaperPlane } from "react-icons/fa";
 import { useDrops } from "@/contexts/DropsContext";
-import { DropMessage } from "@/interfaces/dropMessage";
-import { GrLike } from "react-icons/gr";
+import DropList from "@/components/DropList";
 
 export default function DropsPage() {
-  const router = useRouter();
   const { isLogged } = useAuth();
-  const { fanProfile  } = useFanProfile();
-  const { messages, addMessage, toggleLike } = useDrops(); // 👈 vindo do contexto
+  const { fanProfile } = useFanProfile();
+  const { addMessage } = useDrops();
   const [input, setInput] = useState("");
 
   const handleSend = () => {
-    if (!input.trim()) return;
-
-    const newMessage: DropMessage = {
-      id: crypto.randomUUID(),
-      author: fanProfile?.nickname || "Anônimo",
-      content: input.trim(),
-      timestamp: new Date().toLocaleTimeString(),
-      likedBy: [],
-    };
-
-    addMessage(newMessage); // 👈 usando a função do contexto
+    if (!input.trim() || !fanProfile) return;
+    addMessage({ content: input.trim() }); // ✅ mais simples agora
     setInput("");
   };
-  
 
   return (
     <main className="p-6 bg-gray-100 min-h-screen bg-[url(/Torcida-FURIA-IEM-Rio-Major-2022.jpg)]">
@@ -42,6 +29,7 @@ export default function DropsPage() {
           <h1 className="text-3xl font-bold text-white">Drops</h1>
         </div>
 
+        {/* Campo de mensagem + botão */}
         <div className="mb-6 flex gap-2 items-start">
           <textarea
             value={input}
@@ -62,8 +50,8 @@ export default function DropsPage() {
           </button>
         </div>
 
-
-        {(!isLogged || (isLogged && !fanProfile)) && (
+        {/* Mensagens de aviso */}
+        {(!isLogged || !fanProfile) && (
           <div className="mt-2 text-sm text-red-500">
             {!isLogged && <p>Você precisa estar logado para enviar mensagens.</p>}
             {isLogged && !fanProfile && (
@@ -72,35 +60,8 @@ export default function DropsPage() {
           </div>
         )}
 
-        <ul className="space-y-4 mt-6">
-          {messages.map((msg) => {
-          const hasLiked = fanProfile && Array.isArray(msg.likedBy) && msg.likedBy.includes(fanProfile.id);
-          return (
-            <li key={msg.id} className="bg-white rounded-lg p-4 shadow">
-            <div className="flex justify-between items-center mb-1">
-            <span className="font-semibold">{msg.author}</span>
-            <span className="text-xs text-gray-400">{msg.timestamp}</span>
-            </div>
-          <p className="text-gray-800 text-sm mb-2">{msg.content}</p>
-
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => fanProfile && toggleLike(msg.id, fanProfile.id)}
-            disabled={!isLogged || !fanProfile}
-            className={`flex items-center gap-1 text-sm font-medium transition ${
-              hasLiked ? "text-purple-600" : "text-gray-500"
-            } hover:text-purple-700`}
-            aria-label="Curtir mensagem"
-          >
-            <GrLike className="text-lg" />
-            <span>{Array.isArray(msg.likedBy) ? msg.likedBy.length : 0}</span>
-          </button>
-        </div>
-      </li>
-    );
-  })}
-</ul>
-
+        {/* Lista de mensagens */}
+        <DropList />
       </div>
     </main>
   );
