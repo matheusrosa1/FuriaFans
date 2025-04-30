@@ -30,24 +30,32 @@ const FanCard: React.FC<Fan> = ({ id, nickname, favoriteGame, fanLevel, photoUrl
       className="relative border rounded-xl p-4 shadow bg-white/30 backdrop-blur-md w-[250px] flex flex-col items-center transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-purple-700/70 hover:-translate-y-1 cursor-pointer"
     >
 
-    <button
-      onClick={(e) => {
-        if (!isLogged || !fanProfile) {
-          e.preventDefault();
-          e.stopPropagation();
-          return;
-        }
+{!fanProfile || fanProfile.id !== id ? (
+  <button
+    onClick={(e) => {
+      if (!isLogged || !fanProfile) {
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
       handleFavoriteClick(e);
-      }}
-      disabled={!isLogged || !fanProfile}
-      title={!isLogged || !fanProfile ? "Você deve estar logado e ser um fã para favoritar" : "Favoritar"}
-      className={`absolute top-2 right-2 transition-colors ${
+    }}
+    disabled={!isLogged || !fanProfile}
+    title={
+      !isLogged || !fanProfile
+        ? "Você deve estar logado e ser um fã para favoritar"
+        : "Favoritar"
+    }
+    className={`absolute top-2 right-2 transition-colors ${
       isFavorite ? "text-purple-600" : "text-black"
-      } hover:text-purple-700 ${
-      (!isLogged || !fanProfile) ? "opacity-50 cursor-not-allowed" : ""}`}
-    >
-      {isFavorite ? <FaHeart size={20} /> : <FaRegHeart size={20} />}
-    </button>
+    } hover:text-purple-700 ${
+      !isLogged || !fanProfile ? "opacity-50 cursor-not-allowed" : ""
+    }`}
+  >
+    {isFavorite ? <FaHeart size={20} /> : <FaRegHeart size={20} />}
+  </button>
+) : null}
+
 
 
       {photoUrl && (

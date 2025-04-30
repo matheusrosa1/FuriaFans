@@ -1,6 +1,7 @@
 "use client";
 
 import { useFanContext } from "@/contexts/FanContextType";
+import { useFanProfile } from "@/contexts/FanProfileContext";
 import { Fan } from "@/interfaces/fan";
 import { FanProfileViewProps } from "@/interfaces/FanProfileViewProps";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
@@ -10,6 +11,8 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 export default function FanProfileView({ fan, showFavoriteButton = false }: FanProfileViewProps) {
   const { updateFan } = useFanContext();
+  const { fanProfile } = useFanProfile()
+
 
   const handleFavoriteClick = () => {
     updateFan(fan.id, { isFavorite: !fan.isFavorite });
@@ -19,17 +22,18 @@ export default function FanProfileView({ fan, showFavoriteButton = false }: FanP
     <div className="w-full max-w-2xl bg-white p-8 rounded-lg shadow flex flex-col items-center relative">
       <h1 className="text-2xl font-bold mb-6 text-center">{fan.nickname}</h1>
 
-      {/* Botão de Favoritar (atualizado para o novo padrão) */}
-      {showFavoriteButton && (
-        <button
-          onClick={handleFavoriteClick}
-          className={`absolute top-2 right-2 transition-colors ${
-            fan.isFavorite ? "text-purple-600" : "text-black"
-          } hover:text-purple-700`}
-        >
-          {fan.isFavorite ? <FaHeart size={20} /> : <FaRegHeart size={20} />}
-        </button>
-      )}
+      {showFavoriteButton && fanProfile?.id !== fan.id && (
+      <button
+        onClick={() => updateFan(fan.id, { isFavorite: !fan.isFavorite })}
+        title={fan.isFavorite ? "Remover dos favoritos" : "Favoritar"}
+        className={`absolute top-2 right-2 transition-colors ${
+        fan.isFavorite ? "text-purple-600" : "text-black"
+        } hover:text-purple-700`}
+      >
+        {fan.isFavorite ? <FaHeart size={20} /> : <FaRegHeart size={20} />}
+      </button>
+)}
+
 
       {fan.photoUrl && (
         <img
