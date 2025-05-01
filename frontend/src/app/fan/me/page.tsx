@@ -6,7 +6,7 @@ import { Button } from "@/components/Button";
 import { Fan } from "@/interfaces/fan";
 import EditProfilePhoto from "@/components/EditProfilePhoto"; 
 import { useFanProfile } from "@/contexts/FanProfileContext";
-import { useFanContext } from "@/contexts/FanContextType";
+import { useFanContext } from "@/contexts/FanListContext";
 import Navbar from "@/components/Navbar";
 
 export default function FanMePage() {

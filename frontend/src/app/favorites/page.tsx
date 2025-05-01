@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useFanContext } from "@/contexts/FanContextType";
+import { useFanContext } from "@/contexts/FanListContext";
 import Navbar from "@/components/Navbar";
 import FanCard from "@/components/FanCard";
 

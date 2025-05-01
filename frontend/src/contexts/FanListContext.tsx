@@ -3,13 +3,8 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { Fan } from "@/interfaces/fan";
 import { mockFans } from "@/mocks/FansMock";
+import { FanContextType } from "@/interfaces/FanContextType";
 
-
-interface FanContextType {
-  fans: Fan[];
-  updateFan: (id: string, updatedFan: Partial<Fan>) => void;
-  addFan: (newFan: Fan) => void;
-}
 
 const FanContext = createContext<FanContextType | undefined>(undefined);
 

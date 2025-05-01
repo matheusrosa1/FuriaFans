@@ -3,15 +3,20 @@
 import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/Button";
+import { useFanProfile } from "@/contexts/FanProfileContext";
 
 export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname(); // 👈 Captura a rota atual
   const { isLogged, setLogged } = useAuth();
+  const { setFanProfile } = useFanProfile();
 
   const handleLogout = () => {
     setLogged(false);
-    localStorage.removeItem("fanProfile");
+    localStorage.removeItem("currentFanProfile");
+    setFanProfile(null);
+    localStorage.removeItem('auth');
+    localStorage.removeItem('authEmail');
     router.push("/");
   };
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useFanContext } from "@/contexts/FanContextType";
+import { useFanContext } from "@/contexts/FanListContext";
 import { useFanProfile } from "@/contexts/FanProfileContext";
 import { Fan } from "@/interfaces/fan";
 import { FanProfileViewProps } from "@/interfaces/FanProfileViewProps";

@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import FanCard from "@/components/FanCard";
 import Navbar from "@/components/Navbar";
-import { useFanContext } from "@/contexts/FanContextType";
+import { useFanContext } from "@/contexts/FanListContext";
 
 export default function HomePage() {
   const { fans } = useFanContext();

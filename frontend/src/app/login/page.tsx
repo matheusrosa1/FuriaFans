@@ -14,24 +14,25 @@ export default function LoginPage() {
   const { setLogged } = useAuth();
   const router = useRouter();
   const { fanProfile } = useFanProfile();
+  const { login } = useFanProfile();
 
-  const handleLogin = async (e: React.FormEvent) => {
+/*   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-
+  
     try {
       const fakeFanId = crypto.randomUUID();
-      
-      localStorage.setItem("auth", "true");
-
       console.log("Usuário logado com:", { email, fanId: fakeFanId });
-      setLogged(true);
-
+  
+      setLogged(true, email);
+  
+      await new Promise((resolve) => setTimeout(resolve, 500)); // Você pode manter essa pausa
+  
+      await login(email); // <-- Atualiza o contexto FanProfile!
+  
       const redirectPath = localStorage.getItem("redirectAfterAuth");
       localStorage.removeItem("redirectAfterAuth");
-
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
+  
       if (!fanProfile) {
         router.push("/add-fan");
       } else {
@@ -42,8 +43,47 @@ export default function LoginPage() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }; */
 
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+  
+    try {
+      const fans = JSON.parse(localStorage.getItem('fans') || '[]');
+      const fan = fans.find((fan: any) => fan.email === email);
+  
+      if (!fan) {
+        console.error("Nenhum fã encontrado para esse email");
+        setIsLoading(false);
+        return;
+      }
+  
+      localStorage.setItem("auth", "true");
+      localStorage.setItem("authEmail", email);
+  
+      setLogged(true, email);
+  
+      await new Promise((resolve) => setTimeout(resolve, 500));
+  
+      await login(email); // <-- Mantém isso
+  
+      const redirectPath = localStorage.getItem("redirectAfterAuth");
+      localStorage.removeItem("redirectAfterAuth");
+  
+      if (!fan.nickname) {
+        router.push("/add-fan");
+      } else {
+        router.push(redirectPath || "/");
+      }
+    } catch (error) {
+      console.error("Erro ao fazer login:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  
   return (
     <main className="p-6 bg-gray-100 min-h-screen flex items-center justify-center bg-[url(/Torcida-FURIA-IEM-Rio-Major-2022.jpg)]">
       <form onSubmit={handleLogin} className="w-full max-w-sm bg-white p-6 rounded-lg shadow">

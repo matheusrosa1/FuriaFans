@@ -4,17 +4,17 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
 import { Fan } from "@/interfaces/fan";
-import { useFanProfile } from "@/contexts/FanProfileContext";
-import { useFanContext } from "@/contexts/FanContextType";
+import { useFanProfile } from "@/contexts/FanProfileContext";// Correto aqui!
 import { useAuth } from "@/contexts/AuthContext";
 import EditProfilePhoto from "@/components/EditProfilePhoto";
 import { gameList } from "@/mocks/gameList";
+import { useFanContext } from '@/contexts/FanListContext';
 
 export default function AddFanPage() {
   const router = useRouter();
-  const { addFan } = useFanContext();
-  const { fanProfile, setFanProfile } = useFanProfile();
-  const { setLogged } = useAuth();
+  const { addFan } = useFanContext(); // Hook correto
+  const { fanProfile, createFanProfile } = useFanProfile(); // Pegar createFanProfile (não mais setFanProfile)
+  const { email, setLogged, isAuthLoading } = useAuth(); // Pegar email do login!
 
   const [nickname, setNickname] = useState("");
   const [favoriteGame, setFavoriteGame] = useState("");
@@ -23,31 +23,51 @@ export default function AddFanPage() {
   const [showCropper, setShowCropper] = useState(false);
   const [fanLevel, setFanLevel] = useState<Fan["fanLevel"]>("casual");
 
+
   useEffect(() => {
-    if (localStorage.getItem("fanProfile")) {
+    if (fanProfile) {
       router.push("/fan/me");
     }
   }, [fanProfile, router]);
 
+  if (isAuthLoading) {
+    return (
+      <main className="p-6 min-h-screen flex items-center justify-center bg-gray-100">
+        <p>Carregando autenticação...</p>
+      </main>
+    );
+  }
+
+  console.log("Email do AuthContext:", email); // Verifica se o email está sendo passado corretamente
+  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+  
+    if (!email) {
+      console.error("Erro: email não encontrado no AuthContext. Usuário não está logado.");
+      return;
+    }
+  
     const finalGame = favoriteGame === "Outro" ? customGame : favoriteGame;
-
+  
+    await createFanProfile(nickname, email); // Agora garantido que é string
+  
     const newFan: Fan = {
       id: uuidv4(),
+      email,
       nickname,
       favoriteGame: finalGame,
       fanLevel,
       photoUrl: photoUrl || "",
       photoFile: null,
     };
-
-    setFanProfile(newFan);
+  
     addFan(newFan);
-    setLogged(true);
     router.push("/fan/me");
   };
+  
+  
 
   return (
     <main className="p-6 bg-gray-100 min-h-screen flex items-center justify-center bg-[url(/Torcida-FURIA-IEM-Rio-Major-2022.jpg)]">

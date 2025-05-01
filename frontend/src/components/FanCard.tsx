@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Fan } from "@/interfaces/fan";
 
 import { FaHeart, FaRegHeart } from "react-icons/fa"; // Agora só importamos o coração
-import { useFanContext } from "@/contexts/FanContextType";
+import { useFanContext } from "@/contexts/FanListContext";
 import { useFanProfile } from "@/contexts/FanProfileContext";
 import { useAuth } from "@/contexts/AuthContext";
 

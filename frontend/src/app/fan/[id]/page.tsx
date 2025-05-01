@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { useFanContext } from "@/contexts/FanContextType";
+import { useFanContext } from "@/contexts/FanListContext";
 import { useFanProfile } from "@/contexts/FanProfileContext";
 import FanProfileView from "@/components/FanProfileView";
 import DropList from "@/components/DropList";
