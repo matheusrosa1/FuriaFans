@@ -2,12 +2,20 @@
 // src/contexts/FanProfileContext.tsx
 import { v4 as uuidv4 } from "uuid";
 import { createContext, useContext, useState, useEffect } from "react";
+import { Fan } from "@/interfaces/fan";
+import { FanProfile } from "@/interfaces/FanProfile";
 
 // Tipo do perfil
 
 interface FanProfileContextType {
   fanProfile: FanProfile | null;
-  createFanProfile: (nickname: string, email: string) => void;
+  createFanProfile: (
+    nickname: string,
+    email: string,
+    favoriteGame: string,
+    fanLevel: 'casual' | 'engaged' | 'hardcore',
+    photoUrl?: string
+  ) => void;
   setFanProfile: (fanProfile: FanProfile | null) => void;
   login: (email: string) => void;
   logout: () => void;
@@ -27,20 +35,33 @@ export function FanProfileProvider({ children }: { children: React.ReactNode }) 
     }
   }, []);
 
-  const createFanProfile = (nickname: string, email: string) => {
+  const createFanProfile = (
+    nickname: string,
+    email: string,
+    favoriteGame: string,
+    fanLevel: 'casual' | 'engaged' | 'hardcore',
+    photoUrl: string = "",
+    photoFile: File | null = null
+  ) => {
     const newFanProfile: FanProfile = {
       id: uuidv4(),
       nickname,
       email,
+      favoriteGame,
+      fanLevel,
+      photoUrl,
+      photoFile,
     };
-
+  
     const existingFans = JSON.parse(localStorage.getItem('fans') || '[]');
     existingFans.push(newFanProfile);
     localStorage.setItem('fans', JSON.stringify(existingFans));
-
+  
     setFanProfile(newFanProfile);
     localStorage.setItem('currentFanProfile', JSON.stringify(newFanProfile));
   };
+  
+  
 
    const login = (email: string) => {
     const fans = JSON.parse(localStorage.getItem('fans') || '[]');
@@ -51,6 +72,10 @@ export function FanProfileProvider({ children }: { children: React.ReactNode }) 
         id: foundFan.id,
         nickname: foundFan.nickname,
         email: foundFan.email,
+        favoriteGame: foundFan.favoriteGame,
+        fanLevel: foundFan.fanLevel,
+        photoUrl: foundFan.photoUrl || "",
+        photoFile: foundFan.photoFile || null,
       };
       setFanProfile(fanProfile);
       localStorage.setItem('currentFanProfile', JSON.stringify(fanProfile));
@@ -60,36 +85,6 @@ export function FanProfileProvider({ children }: { children: React.ReactNode }) 
       localStorage.removeItem('currentFanProfile');
     }
   };
-  
-
-/*   const login = () => {
-    const authId = localStorage.getItem('authId');
-  
-    if (!authId) {
-      console.error("Nenhum authId encontrado");
-      setFanProfile(null);
-      localStorage.removeItem('currentFanProfile');
-      return;
-    }
-  
-    const fans = JSON.parse(localStorage.getItem('fans') || '[]');
-    const foundFan = fans.find((fan: any) => fan.id === authId);
-  
-    if (foundFan) {
-      const fanProfile: FanProfile = {
-        id: foundFan.id,
-        nickname: foundFan.nickname,
-        email: foundFan.email,
-      };
-      setFanProfile(fanProfile);
-      localStorage.setItem('currentFanProfile', JSON.stringify(fanProfile));
-    } else {
-      console.error("FanProfile não encontrado para o authId.");
-      setFanProfile(null);
-      localStorage.removeItem('currentFanProfile');
-    }
-  };
-   */
   
 
   const logout = () => {

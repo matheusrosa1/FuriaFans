@@ -9,6 +9,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import EditProfilePhoto from "@/components/EditProfilePhoto";
 import { gameList } from "@/mocks/gameList";
 import { useFanContext } from '@/contexts/FanListContext';
+import { FanProfile } from "@/interfaces/FanProfile";
 
 export default function AddFanPage() {
   const router = useRouter();
@@ -51,9 +52,9 @@ export default function AddFanPage() {
   
     const finalGame = favoriteGame === "Outro" ? customGame : favoriteGame;
   
-    await createFanProfile(nickname, email); // Agora garantido que é string
+    await createFanProfile(nickname, email, favoriteGame, fanLevel, photoUrl || ""); // Agora garantido que é string
   
-    const newFan: Fan = {
+    const newFan: FanProfile = {
       id: uuidv4(),
       email,
       nickname,

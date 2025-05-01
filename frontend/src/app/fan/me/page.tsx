@@ -3,17 +3,17 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/Button";
-import { Fan } from "@/interfaces/fan";
 import EditProfilePhoto from "@/components/EditProfilePhoto"; 
 import { useFanProfile } from "@/contexts/FanProfileContext";
 import { useFanContext } from "@/contexts/FanListContext";
 import Navbar from "@/components/Navbar";
+import { FanProfile } from "@/interfaces/FanProfile";
 
 export default function FanMePage() {
   const router = useRouter();
   const { fanProfile, setFanProfile } = useFanProfile();
   const { updateFan } = useFanContext();
-  const [editingField, setEditingField] = useState<keyof Fan | null>(null);
+  const [editingField, setEditingField] = useState<keyof FanProfile | null>(null);
   const [tempValue, setTempValue] = useState<string>("");
   const [editingPhoto, setEditingPhoto] = useState(false);
 
@@ -26,7 +26,7 @@ export default function FanMePage() {
     );
   }
 
-  const handleEdit = (key: keyof Fan) => {
+  const handleEdit = (key: keyof FanProfile) => {
     setEditingField(key);
     setTempValue(fanProfile[key]?.toString() ?? "");
   };
@@ -119,7 +119,7 @@ export default function FanMePage() {
                     </span>
                     <Button
                       label="Editar"
-                      onClick={() => handleEdit(key as keyof Fan)}
+                      onClick={() => handleEdit(key as keyof FanProfile)}
                       type="button"
                     />
                   </div>
