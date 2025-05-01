@@ -27,55 +27,35 @@ export default function RegisterPage() {
     }));
   };
 
- const handleRegister = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (values.password !== values.passwordConfirm) {
-      alert("As senhas não coincidem.");
-      return;
-    }
-
-    const fanId = crypto.randomUUID();
-
-    // Atualiza localStorage
-    localStorage.setItem("auth", "true");
-    localStorage.setItem("authEmail", values.email);
-
-    // ATUALIZA o CONTEXTO também!
-    setLogged(true, values.email);
-
-    router.push("/add-fan");
-  }; 
-
-/*   const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
   
     if (values.password !== values.passwordConfirm) {
       alert("As senhas não coincidem.");
       return;
     }
-  
-    const fanId = crypto.randomUUID();
-  
-    const newFan = {
-      id: fanId,
-      nickname: "", // vazio no cadastro, vai preencher depois
-      email: values.email,
-    };
   
     const existingFans = JSON.parse(localStorage.getItem('fans') || '[]');
-    existingFans.push(newFan);
-    localStorage.setItem('fans', JSON.stringify(existingFans));
+    const emailAlreadyExists = existingFans.some(
+      (fan: any) => fan.email?.toLowerCase() === values.email.toLowerCase()
+    );
   
-    // Atualiza localStorage de auth
+    if (emailAlreadyExists) {
+      alert("Este e-mail já possui um perfil de fã registrado. Por favor, faça login.");
+      return;
+    }
+  
+    const fanId = crypto.randomUUID();
+
     localStorage.setItem("auth", "true");
     localStorage.setItem("authEmail", values.email);
-    localStorage.setItem("authId", fanId); // <-- Salva o ID também aqui!!
+    localStorage.setItem("authId", fanId);
   
     setLogged(true, values.email);
   
     router.push("/add-fan");
-  }; */
+  };
+  
   
 
   return (
