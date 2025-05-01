@@ -2,9 +2,10 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { useFanContext } from "@/contexts/FanContextType";
+import { useFanProfile } from "@/contexts/FanProfileContext";
 import FanProfileView from "@/components/FanProfileView";
-import Navbar from "@/components/Navbar";
 import DropList from "@/components/DropList";
+import Navbar from "@/components/Navbar";
 
 export default function FanIdPage() {
   const { id } = useParams();
@@ -12,9 +13,9 @@ export default function FanIdPage() {
   const fanId = Array.isArray(id) ? id[0] : id;
 
   const { fans } = useFanContext();
-  const fan = fans.find((fan) => fan.id === fanId);
+  const { fanProfile } = useFanProfile();
 
-  console.log("FanIdPage", fanId);
+  const fan = fans.find((f) => f.id === fanId);
 
   if (!fan) {
     return (
@@ -24,11 +25,20 @@ export default function FanIdPage() {
     );
   }
 
+  const isOwnProfile = fanProfile?.id === fan.id;
+
   return (
-    <main className="p-6 bg-gray-100 min-h-screen flex flex-col items-center bg-[url(/Torcida-FURIA-IEM-Rio-Major-2022.jpg)]">
+    <main className="p-6 bg-gray-100 min-h-screen bg-[url(/Torcida-FURIA-IEM-Rio-Major-2022.jpg)] flex flex-col items-center">
       <Navbar />
-      <FanProfileView fan={fan} showFavoriteButton />
-      <DropList onlyByFanId={fanId} />
+
+      <div className="w-full flex flex-col items-center mt-8">
+        <FanProfileView fan={fan} showFavoriteButton={!isOwnProfile} />
+      </div>
+
+      <div className="w-full max-w-2xl mt-10">
+        <h2 className="text-xl font-bold text-white mb-4 text-center">Drops de {fan.nickname}</h2>
+        <DropList onlyByFanId={fan.id} />
+      </div>
     </main>
   );
 }
