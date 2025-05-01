@@ -20,7 +20,7 @@ export default function FanMePage() {
   if (!fanProfile) {
     return (
       <main className="p-6 min-h-screen flex items-center justify-center bg-gray-100">
-        <Navbar /> {/* Navbar mesmo se perfil ainda estiver carregando */}
+        <Navbar />
         <p className="text-gray-700 text-xl mt-8">Carregando perfil...</p>
       </main>
     );
@@ -65,22 +65,28 @@ export default function FanMePage() {
       <div className="w-full max-w-2xl bg-white p-8 rounded-lg shadow flex flex-col items-center mt-8">
         <h1 className="text-2xl font-bold mb-6 text-center">Meu Perfil</h1>
 
-        {fanProfile.photoUrl && !editingPhoto && (
+        {!editingPhoto ? (
           <>
+          { (fanProfile.photoUrl) ? (
             <img
               src={fanProfile.photoUrl}
               alt="Avatar"
               className="w-24 h-24 rounded-full object-cover border mb-4"
             />
+          ) : (
+            <img 
+            src={`https://ui-avatars.com/api/?name=${fanProfile?.nickname.replace(" ", "+")}&background=random`}
+            alt="Avatar"
+            className="w-24 h-24 rounded-full object-cover mb-4"
+            />
+          )}
             <Button
               label="Editar Foto"
               onClick={() => setEditingPhoto(true)}
               type="button"
             />
           </>
-        )}
-
-        {editingPhoto && (
+        ) : (
           <EditProfilePhoto
             onSave={handlePhotoSave}
             onCancel={() => setEditingPhoto(false)}

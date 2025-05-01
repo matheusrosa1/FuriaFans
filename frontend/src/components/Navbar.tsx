@@ -11,6 +11,7 @@ export default function Navbar() {
 
   const handleLogout = () => {
     setLogged(false);
+    localStorage.removeItem("fanProfile");
     router.push("/");
   };
 

@@ -24,7 +24,7 @@ export default function AddFanPage() {
   const [fanLevel, setFanLevel] = useState<Fan["fanLevel"]>("casual");
 
   useEffect(() => {
-    if (fanProfile) {
+    if (localStorage.getItem("fanProfile")) {
       router.push("/fan/me");
     }
   }, [fanProfile, router]);

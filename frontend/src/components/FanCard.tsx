@@ -58,12 +58,18 @@ const FanCard: React.FC<Fan> = ({ id, nickname, favoriteGame, fanLevel, photoUrl
 
 
 
-      {photoUrl && (
+      {photoUrl ? (
         <img
           src={photoUrl}
           alt={`Foto de ${nickname}`}
           className="w-24 h-24 rounded-full object-cover mb-4"
         />
+      ) : (
+        <img 
+          src={`https://ui-avatars.com/api/?name=${nickname.replace(" ", "+")}&background=random`}
+          alt=""
+          className="w-24 h-24 rounded-full object-cover mb-4"
+         />
       )}
       <h2 className="text-xl font-bold text-center">{nickname}</h2>
       <p className="text-gray-700">🎮 {favoriteGame}</p>

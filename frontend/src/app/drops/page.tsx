@@ -29,7 +29,6 @@ export default function DropsPage() {
           <h1 className="text-3xl font-bold text-white">Drops</h1>
         </div>
 
-        {/* Campo de mensagem + botão */}
         <div className="mb-6 flex gap-2 items-start">
           <textarea
             value={input}
@@ -50,7 +49,6 @@ export default function DropsPage() {
           </button>
         </div>
 
-        {/* Mensagens de aviso */}
         {(!isLogged || !fanProfile) && (
           <div className="mt-2 text-sm text-red-500">
             {!isLogged && <p>Você precisa estar logado para enviar mensagens.</p>}
@@ -60,7 +58,6 @@ export default function DropsPage() {
           </div>
         )}
 
-        {/* Lista de mensagens */}
         <DropList />
       </div>
     </main>
