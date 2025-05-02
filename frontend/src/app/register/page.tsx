@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Input from "@/components/Input";
 import { Button } from "@/components/Button";
 import { useAuth } from "@/contexts/AuthContext";
-import NavbarAuth from "@/contexts/NavbarAuth";
+import NavbarAuth from "@/components/NavbarAuth";
 
 export const INITIAL_STATE = {
   email: "",

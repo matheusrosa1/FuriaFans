@@ -6,7 +6,7 @@ import { Button } from "@/components/Button";
 import { useAuth } from "@/contexts/AuthContext";
 import { useFanProfile } from "@/contexts/FanProfileContext";
 import Input from "@/components/Input";
-import NavbarAuth from "@/contexts/NavbarAuth";
+import NavbarAuth from "@/components/NavbarAuth";
 
 
 export default function LoginPage() {
