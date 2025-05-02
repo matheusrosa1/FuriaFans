@@ -17,6 +17,7 @@ export default function Navbar() {
     setFanProfile(null);
     localStorage.removeItem('auth');
     localStorage.removeItem('authEmail');
+    localStorage.removeItem('authId');
     router.push("/");
   };
 

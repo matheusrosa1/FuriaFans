@@ -43,6 +43,11 @@ export default function AddFanPage() {
   
 
   const handleSubmit = async (e: React.FormEvent) => {
+    const authId = localStorage.getItem('authId');
+    if (!authId) {
+      console.error("Erro: authId não encontrado no localStorage.");
+      return;
+    }
     e.preventDefault();
   
     if (!email) {
@@ -55,7 +60,7 @@ export default function AddFanPage() {
     await createFanProfile(nickname, email, favoriteGame, fanLevel, photoUrl || ""); // Agora garantido que é string
   
     const newFan: FanProfile = {
-      id: uuidv4(),
+      id: authId,
       email,
       nickname,
       favoriteGame: finalGame,

@@ -43,8 +43,13 @@ export function FanProfileProvider({ children }: { children: React.ReactNode }) 
     photoUrl: string = "",
     photoFile: File | null = null
   ) => {
+    const authId = localStorage.getItem('authId');
+    if (!authId) {
+      console.error("Erro: authId não encontrado no localStorage.");
+      return;
+    }
     const newFanProfile: FanProfile = {
-      id: uuidv4(),
+      id: authId,
       nickname,
       email,
       favoriteGame,
