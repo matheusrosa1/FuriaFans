@@ -2,13 +2,13 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import { Fan } from "@/interfaces/fan";
+import { FanRecord } from "@/interfaces/FanRecord";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useFanContext } from "@/contexts/FanListContext";
 import { useFanProfile } from "@/contexts/FanProfileContext";
 import { useAuth } from "@/contexts/AuthContext";
 
-const FanCard: React.FC<Fan> = ({ id, nickname, favoriteGame, fanLevel, photoUrl, favoritedByIds }) => {
+const FanCard: React.FC<FanRecord> = ({ id, nickname, favoriteGame, fanLevel, photoUrl, favoritedByIds }) => {
   const router = useRouter();
   const { fanProfile } = useFanProfile();
   const { isLogged } = useAuth();

@@ -10,7 +10,6 @@ import Navbar from "@/components/Navbar";
 
 export default function FanIdPage() {
   const { id } = useParams();
-  const router = useRouter();
   const fanId = Array.isArray(id) ? id[0] : id;
 
   const { fans } = useFanContext();

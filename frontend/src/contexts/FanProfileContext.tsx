@@ -1,30 +1,11 @@
 "use client";
-// src/contexts/FanProfileContext.tsx
-import { v4 as uuidv4 } from "uuid";
+
 import { createContext, useContext, useState, useEffect } from "react";
-import { Fan } from "@/interfaces/fan";
 import { FanProfile } from "@/interfaces/FanProfile";
+import { FanProfileContextType } from "@/interfaces/FanProfileContextType";
 
-// Tipo do perfil
-
-interface FanProfileContextType {
-  fanProfile: FanProfile | null;
-  createFanProfile: (
-    nickname: string,
-    email: string,
-    favoriteGame: string,
-    fanLevel: 'casual' | 'engaged' | 'hardcore',
-    photoUrl?: string
-  ) => void;
-  setFanProfile: (fanProfile: FanProfile | null) => void;
-  login: (email: string) => void;
-  logout: () => void;
-}
-
-// Criar o contexto
 const FanProfileContext = createContext<FanProfileContextType | undefined>(undefined);
 
-// Provider
 export function FanProfileProvider({ children }: { children: React.ReactNode }) {
   const [fanProfile, setFanProfile] = useState<FanProfile | null>(null);
 

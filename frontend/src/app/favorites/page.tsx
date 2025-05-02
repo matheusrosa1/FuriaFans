@@ -9,9 +9,7 @@ import FanCard from "@/components/FanCard";
 export default function FavoritesPage() {
   const { fans } = useFanContext();
   const { fanProfile } = useFanProfile();
-  const router = useRouter();
 
-  // Novo filtro: baseado em favoritedByIds
   const favoriteFans = fans.filter((fan) =>
     fanProfile ? fan.favoritedByIds?.includes(fanProfile.id) : false
   );

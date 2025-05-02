@@ -1,6 +1,6 @@
 // src/interfaces/fan.ts
 
-export interface Fan {
+export interface FanRecord {
   id: string;
   nickname: string;
   favoriteGame: string;
