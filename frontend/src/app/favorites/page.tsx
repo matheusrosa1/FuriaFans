@@ -2,14 +2,19 @@
 
 import { useRouter } from "next/navigation";
 import { useFanContext } from "@/contexts/FanListContext";
+import { useFanProfile } from "@/contexts/FanProfileContext";
 import Navbar from "@/components/Navbar";
 import FanCard from "@/components/FanCard";
 
 export default function FavoritesPage() {
   const { fans } = useFanContext();
+  const { fanProfile } = useFanProfile();
   const router = useRouter();
 
-  const favoriteFans = fans.filter((fan) => fan.isFavorite);
+  // Novo filtro: baseado em favoritedByIds
+  const favoriteFans = fans.filter((fan) =>
+    fanProfile ? fan.favoritedByIds?.includes(fanProfile.id) : false
+  );
 
   return (
     <main className="p-6 min-h-screen bg-[url(/Torcida-FURIA-IEM-Rio-Major-2022.jpg)]">

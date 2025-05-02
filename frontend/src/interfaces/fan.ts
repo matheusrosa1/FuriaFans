@@ -8,5 +8,6 @@ export interface Fan {
   photoUrl?: string;
   photoFile?: File | null;
   isFavorite?: boolean;
+  favoritedByIds?: string[];
   email: string;
 }

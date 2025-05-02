@@ -4,12 +4,15 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { Fan } from "@/interfaces/fan";
 import { mockFans } from "@/mocks/FansMock";
 import { FanContextType } from "@/interfaces/FanContextType";
+import { useFanProfile } from "./FanProfileContext";
 
 
 const FanContext = createContext<FanContextType | undefined>(undefined);
 
 export function FanProvider({ children }: { children: React.ReactNode }) {
   const [fans, setFans] = useState<Fan[]>([]);
+  const { fanProfile } = useFanProfile();
+
 
   useEffect(() => {
     const storedFans = localStorage.getItem("fans");
@@ -34,8 +37,32 @@ export function FanProvider({ children }: { children: React.ReactNode }) {
     setFans(prevFans => [...prevFans, newFan]);
   };
 
+  function toggleFavorite(fanId: string) {
+    if (!fanProfile) return;
+  
+    setFans(prevFans =>
+      prevFans.map(fan => {
+        if (fan.id === fanId) {
+          const isAlreadyFavorited = fan.favoritedByIds?.includes(fanProfile.id);
+  
+          let updatedFavoritedByIds: string[];
+          if (isAlreadyFavorited) {
+            updatedFavoritedByIds = fan.favoritedByIds?.filter(id => id !== fanProfile.id) || [];
+          } else {
+            updatedFavoritedByIds = [...(fan.favoritedByIds || []), fanProfile.id];
+          }
+  
+          return { ...fan, favoritedByIds: updatedFavoritedByIds };
+        }
+        return fan;
+      })
+    );
+  }
+  
+  
+
   return (
-    <FanContext.Provider value={{ fans, updateFan, addFan }}>
+    <FanContext.Provider value={{ fans, updateFan, addFan, toggleFavorite }}>
       {children}
     </FanContext.Provider>
   );
