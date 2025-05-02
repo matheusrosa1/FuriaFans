@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/Button";
 import { useAuth } from "@/contexts/AuthContext";
 import { useFanProfile } from "@/contexts/FanProfileContext";
+import Input from "@/components/Input";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -13,37 +14,8 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const { setLogged } = useAuth();
   const router = useRouter();
-  const { fanProfile } = useFanProfile();
   const { login } = useFanProfile();
 
-/*   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-  
-    try {
-      const fakeFanId = crypto.randomUUID();
-      console.log("Usuário logado com:", { email, fanId: fakeFanId });
-  
-      setLogged(true, email);
-  
-      await new Promise((resolve) => setTimeout(resolve, 500)); // Você pode manter essa pausa
-  
-      await login(email); // <-- Atualiza o contexto FanProfile!
-  
-      const redirectPath = localStorage.getItem("redirectAfterAuth");
-      localStorage.removeItem("redirectAfterAuth");
-  
-      if (!fanProfile) {
-        router.push("/add-fan");
-      } else {
-        router.push(redirectPath || "/");
-      }
-    } catch (error) {
-      console.error("Erro ao fazer login:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  }; */
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -89,27 +61,21 @@ export default function LoginPage() {
       <form onSubmit={handleLogin} className="w-full max-w-sm bg-white p-6 rounded-lg shadow">
         <h1 className="text-2xl font-bold mb-6 text-center">Login de Fã</h1>
 
-        <label className="block mb-4">
-          <span className="block text-sm font-medium text-gray-700">E-mail:</span>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="mt-1 block w-full border rounded px-3 py-2"
-          />
-        </label>
-
-        <label className="block mb-6">
-          <span className="block text-sm font-medium text-gray-700">Senha:</span>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            className="mt-1 block w-full border rounded px-3 py-2"
-          />
-        </label>
+        <Input
+          name="email"
+          label="Email"
+          value={email}
+          handleInputChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <Input
+          name="password"
+          label="Senha"
+          value={password}
+          handleInputChange={(e) => setPassword(e.target.value)}
+          isPassword
+          required
+        />
         <Button
           type="submit"
           label="Entrar"
