@@ -21,7 +21,7 @@ export default function Input({ isPassword = false, value, handleInputChange, la
     <label className="block mb-6 relative">
       <span className="block text-sm font-medium text-gray-700">{label}</span>
       <input
-        type={isPassword && viewPassword ? "password" : "text"}
+        type={isPassword && !viewPassword ? "password" : "text"}
         name={name}
         value={value}
         onChange={(e) => handleInputChange(e)}

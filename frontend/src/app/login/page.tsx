@@ -54,7 +54,7 @@ export default function LoginPage() {
       const fan = fans.find((fan: any) => fan.email === email);
   
       if (!fan) {
-        console.error("Nenhum fã encontrado para esse email");
+        alert("Nenhum fã encontrado para esse email");
         setIsLoading(false);
         return;
       }
