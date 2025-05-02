@@ -1,17 +1,14 @@
-// src/mocks/fans.ts
-
-import { Fan } from "@/interfaces/fan";
-
+import { FanRecord } from "@/interfaces/FanRecord";
 import { v4 as uuidv4 } from "uuid";
 
-
-export const mockFans: Fan[] = [
+export const mockFans: FanRecord[] = [
   {
     id: "a5894e6a-c94e-4d5f-9e98-97011523d35b",
     nickname: "Lucas Killer",
     favoriteGame: "CS:GO",
     fanLevel: "hardcore",
     photoUrl: "https://ui-avatars.com/api/?name=Lucas+Matador&background=random",
+    email: "lucaskiller@gmail.com",
   },
   {
     id: "51ea6888-68d7-49a3-a2e3-e9679abd21b6",
@@ -19,6 +16,7 @@ export const mockFans: Fan[] = [
     favoriteGame: "Valorant",
     fanLevel: "engaged",
     photoUrl: "https://ui-avatars.com/api/?name=Bia+Rush&background=random",
+    email: "biarush@hotmail.com",
   },
   {
     id: uuidv4(),
@@ -26,6 +24,7 @@ export const mockFans: Fan[] = [
     favoriteGame: "League of Legends",
     fanLevel: "casual",
     photoUrl: "https://ui-avatars.com/api/?name=Joao+Chill&background=random",
+    email: "joaochill@yahoo.com",
   },
   {
     id: uuidv4(),
@@ -33,6 +32,7 @@ export const mockFans: Fan[] = [
     favoriteGame: "Dota 2",
     fanLevel: "hardcore",
     photoUrl: "https://ui-avatars.com/api/?name=Ana+Pro&background=random",
+    email: "anapro@outlook.com",
   },
   {
     id: uuidv4(),
@@ -40,6 +40,7 @@ export const mockFans: Fan[] = [
     favoriteGame: "Apex Legends",
     fanLevel: "engaged",
     photoUrl: "https://ui-avatars.com/api/?name=Carlos+Sniper&background=random",
+    email: "carlossniper@gmail.com",
   },
   {
     id: uuidv4(),
@@ -47,6 +48,7 @@ export const mockFans: Fan[] = [
     favoriteGame: "Fortnite",
     fanLevel: "casual",
     photoUrl: "https://ui-avatars.com/api/?name=Fernanda+Gamer&background=random",
+    email: "fernandagamer@hotmail.com",
   },
   {
     id: uuidv4(),
@@ -54,6 +56,7 @@ export const mockFans: Fan[] = [
     favoriteGame: "Overwatch",
     fanLevel: "hardcore",
     photoUrl: "https://ui-avatars.com/api/?name=Ricardo+Speed&background=random",
+    email: "ricardospeed@uol.com.br",
   },
   {
     id: "8",
@@ -61,6 +64,7 @@ export const mockFans: Fan[] = [
     favoriteGame: "Call of Duty",
     fanLevel: "engaged",
     photoUrl: "https://ui-avatars.com/api/?name=Mariana+Ninja&background=random",
+    email: "mariananinja@globo.com",
   },
   {
     id: uuidv4(),
@@ -68,6 +72,7 @@ export const mockFans: Fan[] = [
     favoriteGame: "PUBG",
     fanLevel: "casual",
     photoUrl: "https://ui-avatars.com/api/?name=Felipe+Master&background=random",
+    email: "felipemaster@gmail.com",
   },
   {
     id: uuidv4(),
@@ -75,5 +80,6 @@ export const mockFans: Fan[] = [
     favoriteGame: "Rainbow Six Siege",
     fanLevel: "hardcore",
     photoUrl: "https://ui-avatars.com/api/?name=Juliana+Pro&background=random",
+    email: "julianapro@yahoo.com",
   }
 ];

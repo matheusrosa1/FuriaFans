@@ -2,8 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { v4 as uuidv4 } from "uuid";
-import { Fan } from "@/interfaces/fan";
+import { FanRecord } from "@/interfaces/FanRecord";
 import { useFanProfile } from "@/contexts/FanProfileContext";// Correto aqui!
 import { useAuth } from "@/contexts/AuthContext";
 import EditProfilePhoto from "@/components/EditProfilePhoto";
@@ -13,16 +12,16 @@ import { FanProfile } from "@/interfaces/FanProfile";
 
 export default function AddFanPage() {
   const router = useRouter();
-  const { addFan } = useFanContext(); // Hook correto
-  const { fanProfile, createFanProfile } = useFanProfile(); // Pegar createFanProfile (não mais setFanProfile)
-  const { email, setLogged, isAuthLoading } = useAuth(); // Pegar email do login!
+  const { addFan } = useFanContext();
+  const { fanProfile, createFanProfile } = useFanProfile();
+  const { email, isAuthLoading } = useAuth();
 
   const [nickname, setNickname] = useState("");
   const [favoriteGame, setFavoriteGame] = useState("");
   const [customGame, setCustomGame] = useState("");
   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
   const [showCropper, setShowCropper] = useState(false);
-  const [fanLevel, setFanLevel] = useState<Fan["fanLevel"]>("casual");
+  const [fanLevel, setFanLevel] = useState<FanRecord["fanLevel"]>("casual");
 
 
   useEffect(() => {
@@ -38,9 +37,6 @@ export default function AddFanPage() {
       </main>
     );
   }
-
-  console.log("Email do AuthContext:", email); // Verifica se o email está sendo passado corretamente
-  
 
   const handleSubmit = async (e: React.FormEvent) => {
     const authId = localStorage.getItem('authId');
@@ -161,7 +157,7 @@ export default function AddFanPage() {
           <span className="block text-sm font-medium text-gray-700">Nível de fã:</span>
           <select
             value={fanLevel}
-            onChange={(e) => setFanLevel(e.target.value as Fan["fanLevel"])}
+            onChange={(e) => setFanLevel(e.target.value as FanRecord["fanLevel"])}
             className="mt-1 block w-full border rounded px-3 py-2"
           >
             <option value="casual">Casual</option>

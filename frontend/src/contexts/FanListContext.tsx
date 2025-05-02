@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect } from "react";
-import { Fan } from "@/interfaces/fan";
+import { FanRecord } from "@/interfaces/FanRecord";
 import { mockFans } from "@/mocks/FansMock";
 import { FanContextType } from "@/interfaces/FanContextType";
 import { useFanProfile } from "./FanProfileContext";
@@ -10,7 +10,7 @@ import { useFanProfile } from "./FanProfileContext";
 const FanContext = createContext<FanContextType | undefined>(undefined);
 
 export function FanProvider({ children }: { children: React.ReactNode }) {
-  const [fans, setFans] = useState<Fan[]>([]);
+  const [fans, setFans] = useState<FanRecord[]>([]);
   const { fanProfile } = useFanProfile();
 
 
@@ -27,13 +27,13 @@ export function FanProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem("fans", JSON.stringify(fans));
   }, [fans]);
 
-  const updateFan = (id: string, updatedFan: Partial<Fan>) => {
+  const updateFan = (id: string, updatedFan: Partial<FanRecord>) => {
     setFans(prevFans =>
       prevFans.map(fan => (fan.id === id ? { ...fan, ...updatedFan } : fan))
     );
   };
 
-  const addFan = (newFan: Fan) => {
+  const addFan = (newFan: FanRecord) => {
     setFans(prevFans => [...prevFans, newFan]);
   };
 

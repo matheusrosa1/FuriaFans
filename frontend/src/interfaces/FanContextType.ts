@@ -1,8 +1,8 @@
-import { Fan } from "./fan";
+import { FanRecord } from "./FanRecord";
 
 export interface FanContextType {
-  fans: Fan[];
-  updateFan: (id: string, updatedFan: Partial<Fan>) => void;
-  addFan: (newFan: Fan) => void;
+  fans: FanRecord[];
+  updateFan: (id: string, updatedFan: Partial<FanRecord>) => void;
+  addFan: (newFan: FanRecord) => void;
   toggleFavorite: (fanId: string) => void;
 }

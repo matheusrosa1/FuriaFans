@@ -1,6 +1,6 @@
-import { Fan } from "./fan";
+import { FanRecord } from "./FanRecord";
 
 export interface FanProfileViewProps {
-  fan: Fan;
+  fan: FanRecord;
   showFavoriteButton?: boolean;
 }

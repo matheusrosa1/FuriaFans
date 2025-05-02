@@ -1,13 +1,8 @@
 "use client";
 
+import { AuthContextType } from "@/interfaces/AuthContextType";
 import { createContext, useContext, useEffect, useState } from "react";
 
-interface AuthContextType {
-  isLogged: boolean;
-  email: string | null;
-  setLogged: (value: boolean, email?: string) => void;
-  isAuthLoading: boolean;
-}
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 

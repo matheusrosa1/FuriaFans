@@ -1,13 +1,11 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import FanCard from "@/components/FanCard";
 import Navbar from "@/components/Navbar";
 import { useFanContext } from "@/contexts/FanListContext";
 
 export default function HomePage() {
   const { fans } = useFanContext();
-  const router = useRouter();
 
   return (
     <main className="p-6 min-h-screen bg-[url(/Torcida-FURIA-IEM-Rio-Major-2022.jpg)]">

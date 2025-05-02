@@ -95,7 +95,7 @@ export default function FanMePage() {
 
         <ul className="text-sm text-gray-800 w-full max-w-sm mt-6">
           {Object.entries(fanProfile)
-            .filter(([key]) => key !== "id" && key !== "photoUrl" && key !== "photoFile")
+            .filter(([key]) => key !== "id" && key !== "photoUrl" && key !== "photoFile" && key !== "email")
             .map(([key, value]) => (
               <li key={key} className="mb-4 flex flex-col sm:flex-row sm:justify-between sm:items-center">
                 {editingField === key ? (

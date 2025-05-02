@@ -1,16 +1,11 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { DropMessage } from "@/interfaces/dropMessage";
+import { DropMessage } from "@/interfaces/DropMessage";
 import { useFanProfile } from "@/contexts/FanProfileContext";
+import { DropsContextType } from "@/interfaces/DropsContextType";
 
-interface DropsContextType {
-  messages: DropMessage[];
-  addMessage: (message: { content: string }) => void;
-  toggleLike: (messageId: string, userId: string) => void;
-  editMessage: (messageId: string, newContent: string) => void;
-  deleteMessage: (messageId: string) => void;
-}
+
 
 const DropsContext = createContext<DropsContextType | undefined>(undefined);
 

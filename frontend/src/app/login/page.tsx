@@ -20,30 +20,34 @@ export default function LoginPage() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-
+  
     try {
-      const fans = JSON.parse(localStorage.getItem('fans') || '[]');
-      const fan = fans.find((fan: any) => fan.email === email);
-
-      if (!fan) {
-        alert("Nenhum fã encontrado para esse email");
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      const user = users.find((u: any) => u.email.toLowerCase() === email.toLowerCase());
+  
+      if (!user) {
+        alert("Nenhum usuário encontrado para esse email.");
         setIsLoading(false);
         return;
       }
-
+  
+      const fans = JSON.parse(localStorage.getItem('fans') || '[]');
+      const fan = fans.find((fan: any) => fan?.email?.toLowerCase() === email.toLowerCase());
+  
       localStorage.setItem("auth", "true");
       localStorage.setItem("authEmail", email);
-
+      localStorage.setItem("authId", user.authId);
+  
       setLogged(true, email);
-
+  
       await new Promise((resolve) => setTimeout(resolve, 500));
-
+  
       await login(email);
-
+  
       const redirectPath = localStorage.getItem("redirectAfterAuth");
       localStorage.removeItem("redirectAfterAuth");
-
-      if (!fan.nickname) {
+  
+      if (!fan?.nickname) {
         router.push("/add-fan");
       } else {
         router.push(redirectPath || "/");
@@ -54,6 +58,8 @@ export default function LoginPage() {
       setIsLoading(false);
     }
   };
+  
+  
 
   return (
     <main className="p-6 bg-gray-100 min-h-screen flex flex-col items-center bg-[url(/Torcida-FURIA-IEM-Rio-Major-2022.jpg)]">

@@ -3,7 +3,6 @@
 import { useAuth } from "@/contexts/AuthContext";
 import { useFanContext } from "@/contexts/FanListContext";
 import { useFanProfile } from "@/contexts/FanProfileContext";
-import { Fan } from "@/interfaces/fan";
 import { FanProfileViewProps } from "@/interfaces/FanProfileViewProps";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 

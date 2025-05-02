@@ -1,10 +1,10 @@
-import { Fan } from "./fan";
+import { FanRecord } from "./FanRecord";
 
 export interface DropMessage {
   id: string;
-  author: Fan["nickname"] | string;
+  author: FanRecord["nickname"] | string;
   content: string;
   timestamp: string;
   likedBy: string[];
-  fanId: Fan["id"]
+  fanId: FanRecord["id"]
 }
