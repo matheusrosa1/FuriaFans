@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import FanProfileView from '@/components/FanProfileView';
 import { renderWithProviders } from '../../test-utils/renderWithProviders';
-import { fanMock } from '../../mocks/fanMock';
+import { fanMock } from '../../src/mocks/fanMock';
 
 describe('FanProfileView', () => {
   beforeEach(() => {
