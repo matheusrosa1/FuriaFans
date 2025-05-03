@@ -1,12 +1,23 @@
+
 # FURIA Fans - Plataforma de Fãs
 
 ## 📚 Sobre o projeto
 
 O **FURIA Fans** é uma plataforma desenvolvida para a interação entre fãs do time FURIA. Os usuários podem se cadastrar, criar seus perfis, postar mensagens (drops), favoritar outros fãs e explorar a comunidade. Foi projetado como um desafio técnico para demonstrar habilidades de desenvolvimento front-end e integração de contexto e gerenciamento de estado em React/Next.js.
 
-## 📊 Status do projeto
+## 🧪 Sobre os testes
 
-> Finalizado ✅
+Para garantir a qualidade do código e o bom funcionamento dos principais componentes da aplicação, foram desenvolvidos **testes unitários** utilizando o **Jest** em conjunto com o **React Testing Library**.
+
+✅ Para rodar os testes localmente:
+
+```bash
+npm run test
+```
+
+Os testes garantem que a estrutura visual dos componentes e suas interações principais se mantenham consistentes.
+
+---
 
 ## 🧰 Tecnologias utilizadas
 
@@ -14,6 +25,8 @@ O **FURIA Fans** é uma plataforma desenvolvida para a interação entre fãs do
 - [React 18](https://react.dev/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
+- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
+- [Jest](https://jestjs.io/)
 - [React Icons](https://react-icons.github.io/react-icons/)
 - LocalStorage API
 
@@ -59,6 +72,11 @@ http://localhost:3000
 
 ```bash
 src/
+|-- __tests__/
+|   |-- components/
+|   |  |-- DropList.test.tsx
+|   |  |-- FanCard.test.tsx
+|   |  |-- FanDetails.test.tsx
 |-- app/
 |   |-- login/
 |   |-- register/
@@ -73,7 +91,9 @@ src/
 |   |-- Button.tsx
 |   |-- Input.tsx
 |   |-- FanCard.tsx
+|   |-- EditProfilePhoto.tsx
 |   |-- DropList.tsx
+|   |-- NavbarAuth.tsx
 |-- contexts/
 |   |-- AuthContext.tsx
 |   |-- FanListContext.tsx
@@ -82,15 +102,19 @@ src/
 |-- interfaces/
 |   |-- dropMessage.ts
 |   |-- EditProfilePhotoProps.ts
-|   |-- fan.ts
 |   |-- FanContextType.ts
 |   |-- FanProfile.ts
+|   |-- DropsContextType.ts
+|   |-- FanProfileContextType.ts
 |   |-- FanProfileViewProps.ts
+|   |-- FanRecord.ts
 |-- mocks/
 |   |-- FansMock.ts
 |   |-- gameList.ts
+|   |-- fanMock.ts
 |-- utils/
 |   |-- cropImage.ts
+...
 ```
 
 ## 📖 Páginas principais
@@ -102,12 +126,6 @@ src/
 - **Favoritos:** lista de fãs favoritados pelo usuário logado.
 - **Drops:** feed geral de mensagens.
 
-## 🌟 Melhorias futuras
-
-- Integração com backend real (Node.js + PostgreSQL).
-- Upload real de fotos de perfil.
-- Notificações de novos drops.
-- Sistema de comentários nos drops.
 
 ## 👥 Autor
 
