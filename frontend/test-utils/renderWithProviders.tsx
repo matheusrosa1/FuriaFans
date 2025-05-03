@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { FanProfileProvider } from '@/contexts/FanProfileContext';
 import { FanProvider } from '@/contexts/FanListContext';
+import { DropsProvider } from '@/contexts/DropsContext';
 // Se precisar do DropsProvider futuramente, a gente adiciona!
 
 interface ProvidersProps {
@@ -14,7 +15,9 @@ function Providers({ children }: ProvidersProps) {
     <AuthProvider>
       <FanProfileProvider>
         <FanProvider>
-          {children}
+          <DropsProvider>
+            {children}
+          </DropsProvider>
         </FanProvider>
       </FanProfileProvider>
     </AuthProvider>
