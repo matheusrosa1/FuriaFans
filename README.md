@@ -41,7 +41,7 @@ O **FURIA Fans** é uma plataforma desenvolvida para a interação entre fãs do
 https://github.com/matheusrosa1/FuriaFans.git
 ```
 
-2. Entre na do projeto
+2. Entre na pasta do projeto
 ```bash
 cd frontend
 ```
