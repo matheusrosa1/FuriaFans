@@ -5,19 +5,7 @@
 
 O **FURIA Fans** é uma plataforma desenvolvida para a interação entre fãs do time FURIA. Os usuários podem se cadastrar, criar seus perfis, postar mensagens (drops), favoritar outros fãs e explorar a comunidade. Foi projetado como um desafio técnico para demonstrar habilidades de desenvolvimento front-end e integração de contexto e gerenciamento de estado em React/Next.js.
 
-## 🧪 Sobre os testes
 
-Para garantir a qualidade do código e o bom funcionamento dos principais componentes da aplicação, foram desenvolvidos **testes unitários** utilizando o **Jest** em conjunto com o **React Testing Library**.
-
-✅ Para rodar os testes localmente:
-
-```bash
-npm run test
-```
-
-Os testes garantem que a estrutura visual dos componentes e suas interações principais se mantenham consistentes.
-
----
 
 ## 🧰 Tecnologias utilizadas
 
@@ -53,6 +41,11 @@ Os testes garantem que a estrutura visual dos componentes e suas interações pr
 https://github.com/matheusrosa1/FuriaFans.git
 ```
 
+2. Entre na do projeto
+```bash
+cd frontend
+```
+
 2. Instale as dependências:
 ```bash
 npm install
@@ -67,6 +60,20 @@ npm run dev
 ```bash
 http://localhost:3000
 ```
+
+## 🧪 Sobre os testes
+
+Para garantir a qualidade do código e o bom funcionamento dos principais componentes da aplicação, foram desenvolvidos **testes unitários** utilizando o **Jest** em conjunto com o **React Testing Library**.
+
+✅ Para rodar os testes localmente:
+
+```bash
+npm run test
+```
+
+Os testes garantem que a estrutura visual dos componentes e suas interações principais se mantenham consistentes.
+
+---
 
 ## 📊 Estrutura de pastas principais
 
